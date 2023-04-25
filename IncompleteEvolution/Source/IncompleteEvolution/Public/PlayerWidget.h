@@ -16,12 +16,13 @@ class INCOMPLETEEVOLUTION_API UPlayerWidget : public UUserWidget
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UImage* OriginalCrossHair;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UImage* AimingCrossHair;
-	
+
+	UPROPERTY(BlueprintReadWrite)
 	AIncompleteEvolutionCharacter* Player;
 	virtual void NativeConstruct () override;
 	virtual void NativeTick (const FGeometry& MyGeometry, float InDeltaTime) override;
