@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
+#include "Components/TextBlock.h"
 #include "GameFramework/GameUserSettings.h"
 #include "PlayerWidget.generated.h"
 
@@ -23,6 +24,14 @@ protected:
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UImage* AimingCrossHair;
 
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* InteractHint;
+
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* InteractMessage;
+
+	float CurrentTime;
+	const float TimeLimit = 5;
 	UPROPERTY(BlueprintReadWrite)
 	AIncompleteEvolutionCharacter* Player;
 	virtual void NativeConstruct () override;

@@ -83,8 +83,6 @@ protected:
     void CallMyTrace(int Number);
 	void ProcessGrabHit(FHitResult& HitOut);
 	
-	
-	
 	// Component Grab
 	UPrimitiveComponent* HitComponentREF;
 	UStaticMeshComponent* StaticMeshComponentREF;
@@ -109,6 +107,10 @@ protected:
 	TArray<FProcMeshTangent> TangentsList;
 	FVector UnitDirection;
 
+	// Interact System
+	void Interact();
+	void ProcessInteractHit(FHitResult& HitOut);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
@@ -122,7 +124,10 @@ public:
 
 	// Aim System
 	bool AimGrab = false;
+	bool AimInteract = false;
 	void ProcessAimHit(FHitResult& HitOut);
+	FString InteractText;
+	bool Interacting;
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherGrab = false;

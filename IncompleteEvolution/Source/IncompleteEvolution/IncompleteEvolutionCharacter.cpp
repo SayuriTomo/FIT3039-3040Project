@@ -7,6 +7,7 @@
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "InteractInterface.h"
 #include "Components/ArrowComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -117,6 +118,20 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 
 //////////////////////////////////////////////////////////////////////////// Input
 
+void AIncompleteEvolutionCharacter::Interact()
+{
+	CallMyTrace(4);
+}
+
+void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
+{
+	if(IInteractInterface* ActorCheck = Cast<IInteractInterface>(HitOut.GetActor()))
+	{
+		InteractText = ActorCheck->OnInteract();
+		Interacting = true;
+	}
+}
+
 void AIncompleteEvolutionCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -133,6 +148,7 @@ void AIncompleteEvolutionCharacter::SetupPlayerInputComponent(class UInputCompon
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AIncompleteEvolutionCharacter::Look);
 
 		PlayerInputComponent->BindAction("Grab",IE_Pressed,this,&AIncompleteEvolutionCharacter::Grab);
+		PlayerInputComponent->BindAction("Interact",IE_Pressed,this,&AIncompleteEvolutionCharacter::Interact);
 	}
 }
 
@@ -235,13 +251,17 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
 		End = Start + ForwardVector * 50000.f;
 	}
-	else if(Number==2)
+	else if(Number == 2)
 	{
 		ForwardVector = UnitDirection * 5000.f;
 		End = Start + ForwardVector;
 	}
+	else if(Number == 4)
+	{
+		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
+		End = Start + ForwardVector * 2000.f;
+	}
 	
-
 	FHitResult HitData(ForceInit);
 	
 	TArray<AActor*> ActorsToIgnore;
@@ -268,6 +288,10 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 			else if(Number == 3)
 			{
 				ProcessAimHit(HitData);
+			}
+			else if(Number == 4)
+			{
+				ProcessInteractHit(HitData);
 			}
 		} else
 		{
@@ -311,6 +335,14 @@ void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 	else
 	{
 		AimGrab = false;
+	}
+	if(Cast<IInteractInterface>(HitOut.GetActor()))
+	{
+		AimInteract = true;
+	}
+	else
+	{
+		AimInteract = false;
 	}
 }
 

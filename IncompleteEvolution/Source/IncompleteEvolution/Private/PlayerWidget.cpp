@@ -9,6 +9,9 @@ void UPlayerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	InteractHint->SetText(FText::FromString("Press F To Interact"));
+
+	
 }
 
 void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -34,6 +37,34 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 				OriginalCrossHair->SetVisibility(ESlateVisibility::Visible);
 				AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
 			}
+		}
+
+		if(Player->AimInteract)
+		{
+			InteractHint->SetVisibility(ESlateVisibility::Visible);
+		}
+		else
+		{
+			InteractHint->SetVisibility(ESlateVisibility::Hidden);
+		}
+
+		if(Player->Interacting)
+		{
+			if(CurrentTime<TimeLimit)
+			{
+				InteractMessage->SetText(FText::FromString(Player->InteractText));
+				InteractMessage->SetVisibility(ESlateVisibility::Visible);
+				CurrentTime += InDeltaTime;
+			}
+			else
+			{
+				Player->Interacting = false;
+				CurrentTime = 0;
+			}
+		}
+		else
+		{
+			InteractMessage->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 }
