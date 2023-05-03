@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
+#include "GameFramework/GameUserSettings.h"
 #include "PlayerWidget.generated.h"
 
 /**

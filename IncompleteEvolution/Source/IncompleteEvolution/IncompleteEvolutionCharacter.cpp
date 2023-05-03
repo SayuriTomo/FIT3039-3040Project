@@ -164,8 +164,8 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 		else
 		{
 			// add yaw and pitch input to controller
-			AddControllerYawInput(LookAxisVector.X);
-			AddControllerPitchInput(LookAxisVector.Y);
+			AddControllerYawInput(LookAxisVector.X/2);
+			AddControllerPitchInput(LookAxisVector.Y/2);
 		}
 	}
 }

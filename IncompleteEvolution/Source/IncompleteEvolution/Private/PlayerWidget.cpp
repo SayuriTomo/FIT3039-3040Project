@@ -14,22 +14,26 @@ void UPlayerWidget::NativeConstruct()
 void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if(Player->WhetherGrab)
+	if(Player)
 	{
-		OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
-		AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
-	}
-	else
-	{
-		if(Player->AimGrab)
+		
+		if(Player->WhetherGrab)
 		{
 			OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
-			AimingCrossHair->SetVisibility(ESlateVisibility::Visible);
+			AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
 		}
 		else
 		{
-			OriginalCrossHair->SetVisibility(ESlateVisibility::Visible);
-			AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
+			if(Player->AimGrab)
+			{
+				OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
+				AimingCrossHair->SetVisibility(ESlateVisibility::Visible);
+			}
+			else
+			{
+				OriginalCrossHair->SetVisibility(ESlateVisibility::Visible);
+				AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
+			}
 		}
 	}
 }
