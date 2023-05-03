@@ -57,9 +57,6 @@ void USettingWidget::NativeConstruct()
 void USettingWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
-	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
-	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
 	//UE_LOG(LogTemp, Warning, TEXT("Current Resolution: %d %d"), ResolutionNumber.X, ResolutionNumber.Y);
 	//UE_LOG(LogTemp, Warning, TEXT("Current Mode: %d"),FullScreenMode);
 	
@@ -91,6 +88,9 @@ void USettingWidget::ResolutionButtonOnClick()
 			GEngine->GetGameUserSettings()->ApplySettings(true);
 		}
 	}
+	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
+	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
 }
 
 void USettingWidget::ScreenModeButtonOnClick()
@@ -128,5 +128,8 @@ void USettingWidget::ScreenModeButtonOnClick()
 		GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Fullscreen);
 		GEngine->GetGameUserSettings()->ApplySettings(true);
 	}
+	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
+	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
 }
 
