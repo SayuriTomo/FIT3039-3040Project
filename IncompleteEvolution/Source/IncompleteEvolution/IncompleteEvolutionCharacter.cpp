@@ -246,20 +246,25 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	FVector ForwardVector;
 	FVector End;
 	
-	if(Number == 1||Number == 3)
+	if(Number == 1)
 	{
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-		End = Start + ForwardVector * 50000.f;
+		End = Start + ForwardVector * 1000.f;
 	}
 	else if(Number == 2)
 	{
 		ForwardVector = UnitDirection * 5000.f;
 		End = Start + ForwardVector;
 	}
+	else if(Number == 3)
+	{
+		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
+		End = Start + ForwardVector * 1000.f;
+	}
 	else if(Number == 4)
 	{
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-		End = Start + ForwardVector * 2000.f;
+		End = Start + ForwardVector * 1000.f;
 	}
 	
 	FHitResult HitData(ForceInit);
@@ -303,6 +308,8 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	else 
 	{
 		// We did not hit an Actor
+		AimGrab=false;
+		AimInteract=false;
 	}
 }
 
@@ -328,6 +335,7 @@ void AIncompleteEvolutionCharacter::ProcessGrabHit(FHitResult& HitOut)
 
 void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 {
+	
 	if(Cast<AActorGrab>(HitOut.GetActor()))
 	{
 		AimGrab = true;
@@ -336,6 +344,7 @@ void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 	{
 		AimGrab = false;
 	}
+	
 	if(Cast<IInteractInterface>(HitOut.GetActor()))
 	{
 		AimInteract = true;
@@ -344,6 +353,8 @@ void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 	{
 		AimInteract = false;
 	}
+	
+	
 }
 
 void AIncompleteEvolutionCharacter::ProcessScaleHit(FHitResult& HitOut)
