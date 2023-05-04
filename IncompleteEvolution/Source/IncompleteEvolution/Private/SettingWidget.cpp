@@ -106,10 +106,8 @@ void USettingWidget::ScreenModeButtonOnClick()
 		CurrentScreenMode->SetText(FText::FromString("Windowed"));
 		GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
 		GEngine->GetGameUserSettings()->SetScreenResolution(DesktopResolutionNumber);
-		if(ResolutionNumber.X == 1920&&ResolutionNumber.Y== 1080)
-		{
-				
-
+		if(ResolutionNumber.X == 1920&&ResolutionNumber.Y== 1080){
+			CurrentResolution->SetText(FText::FromString("1920x1080"));	
 		}
 		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1440)
 		{
