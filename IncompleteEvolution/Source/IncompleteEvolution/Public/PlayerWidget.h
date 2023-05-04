@@ -30,6 +30,9 @@ protected:
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* InteractMessage;
 
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* TaskMessage;
+
 	float CurrentTime;
 	const float TimeLimit = 5;
 	UPROPERTY(BlueprintReadWrite)

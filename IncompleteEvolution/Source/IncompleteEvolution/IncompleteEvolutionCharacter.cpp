@@ -54,6 +54,12 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 		}
 	}
 
+	Interacting = true;
+	InteractText = "Who set me here? I need to get out of here.";
+
+	TargetUpdate = true;
+	TaskText = "1. Leave Room";
+
 }
 
 void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)

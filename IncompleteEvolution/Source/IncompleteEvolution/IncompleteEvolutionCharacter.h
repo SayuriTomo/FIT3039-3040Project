@@ -131,5 +131,10 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherGrab = false;
+
+	bool TargetUpdate;
+	FString TaskText;
+
+	bool GetKey=false;
 };
 

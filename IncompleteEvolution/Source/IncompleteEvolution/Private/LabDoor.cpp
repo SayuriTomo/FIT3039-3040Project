@@ -2,6 +2,7 @@
 
 
 #include "LabDoor.h"
+#include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 
 // Sets default values
 ALabDoor::ALabDoor()
@@ -18,7 +19,10 @@ ALabDoor::ALabDoor()
 FString ALabDoor::OnInteract()
 {
 	FString InteractMessage;
-	if(IsLocked)
+	AIncompleteEvolutionCharacter* Player =
+		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	
+	if(IsLocked&&!Player->GetKey)
 	{
 		InteractMessage = "It seems to be locked";
 		return InteractMessage;

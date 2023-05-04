@@ -66,5 +66,11 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		{
 			InteractMessage->SetVisibility(ESlateVisibility::Hidden);
 		}
+
+		if(Player->TargetUpdate)
+		{
+			TaskMessage->SetText(FText::FromString(Player->TaskText));
+			Player->TargetUpdate=false;
+		}
 	}
 }
