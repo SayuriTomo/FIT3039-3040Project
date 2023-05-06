@@ -4,131 +4,192 @@
 #include "SettingWidget.h"
 #include "GameFramework/GameUserSettings.h"
 
+void USettingWidget::SM_SelectedButtonOnClick()
+{
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Visible);
+}
+
+void USettingWidget::SM_OptionsButtonOnUnhovered()
+{
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::FullScreenOnClick()
+{
+	SM_SelectedText->SetText(FText::FromString("Full Screen"));
+	RE_SelectedText->SetText(FText::FromString("Disabled"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::WindowedFullscreen);
+	GEngine->GetGameUserSettings()->SetScreenResolution(DesktopResolutionNumber);
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::WindowedOnClick()
+{
+	SM_SelectedText->SetText(FText::FromString("Windowed"));
+	RE_SelectedText->SetText(FText::FromString("1920x1080"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
+	GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(1920, 1080));
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::RE_SelectedButtonOnClick()
+{
+	if(CurrentScreenMode==2)
+	{
+		RE_OptionsButton->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
+void USettingWidget::RE_OptionsButtonOnUnhovered()
+{
+	if(CurrentScreenMode==2)
+	{
+		RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void USettingWidget::FhdOnClick()
+{
+	RE_SelectedText->SetText(FText::FromString("1920x1080"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
+	GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(1920, 1080));
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::Qhd1OnClick()
+{
+	RE_SelectedText->SetText(FText::FromString("2560x1440"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
+	GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(2560, 1440));
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::Qhd2OnClick()
+{
+	RE_SelectedText->SetText(FText::FromString("2560x1600"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
+	GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(2560, 1600));
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void USettingWidget::UhdOnClick()
+{
+	RE_SelectedText->SetText(FText::FromString("3840x2160"));
+	GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
+	GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(3840, 2160));
+	GEngine->GetGameUserSettings()->ApplySettings(true);
+	CurrentResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	SM_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+	RE_OptionsButton->SetVisibility(ESlateVisibility::Hidden);
+}
+
 void USettingWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
-	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
+	
 	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
+	CurrentScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
+	CurrentResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
 	
-	if(!ResolutionButton->OnClicked.IsBound())
+	FullScreenText->SetText(FText::FromString("Full Screen"));
+	WindowedText->SetText(FText::FromString("Windowed"));
+
+	if(!SM_SelectedButton->OnClicked.IsBound())
 	{
-		ResolutionButton->OnClicked.AddDynamic(this,&USettingWidget::ResolutionButtonOnClick);
+		SM_SelectedButton->
+		OnClicked.AddDynamic(this,&USettingWidget::SM_SelectedButtonOnClick);
 	}
-	if(FullScreenMode==2)
+	if(!SM_OptionsButton->OnUnhovered.IsBound())
 	{
-		if(ResolutionNumber.X == 1920&&ResolutionNumber.Y== 1080)
-		{
-			CurrentResolution->SetText(FText::FromString("1920x1080"));
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1440)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1440"));
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1600)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1600"));
-		}
+		SM_OptionsButton->
+		OnUnhovered.AddDynamic(this,&USettingWidget::SM_OptionsButtonOnUnhovered);
 	}
-	else
+	if(!FullScreen->OnClicked.IsBound())
 	{
-		CurrentResolution->SetText(FText::FromString("Can not change"));
+		FullScreen->
+		OnClicked.AddDynamic(this,&USettingWidget::FullScreenOnClick);
+	}
+	if(!Windowed->OnClicked.IsBound())
+	{
+		Windowed->
+		OnClicked.AddDynamic(this,&USettingWidget::WindowedOnClick);
+	}
+	if(!RE_SelectedButton->OnClicked.IsBound())
+	{
+		RE_SelectedButton->
+		OnClicked.AddDynamic(this,&USettingWidget::RE_SelectedButtonOnClick);
+	}
+	if(!RE_OptionsButton->OnUnhovered.IsBound())
+	{
+		RE_OptionsButton->
+		OnUnhovered.AddDynamic(this,&USettingWidget::RE_OptionsButtonOnUnhovered);
+	}
+	if(!FhdButton->OnClicked.IsBound())
+	{
+		FhdButton->
+		OnClicked.AddDynamic(this,&USettingWidget::USettingWidget::FhdOnClick);
+	}
+	if(!Qhd1Button->OnClicked.IsBound())
+	{
+		Qhd1Button->
+		OnClicked.AddDynamic(this,&USettingWidget::USettingWidget::Qhd1OnClick);
+	}
+	if(!Qhd2Button->OnClicked.IsBound())
+	{
+		Qhd2Button->
+		OnClicked.AddDynamic(this,&USettingWidget::USettingWidget::Qhd2OnClick);
+	}
+	if(!UhdButton->OnClicked.IsBound())
+	{
+		UhdButton->
+		OnClicked.AddDynamic(this,&USettingWidget::USettingWidget::UhdOnClick);
 	}
 	
-	if(!ScreenModeButton->OnClicked.IsBound())
+	if(CurrentScreenMode == 1||CurrentScreenMode==0)
 	{
-		ScreenModeButton->OnClicked.AddDynamic(this,&USettingWidget::USettingWidget::ScreenModeButtonOnClick);
+		SM_SelectedText->SetText(FText::FromString("Full Screen"));
+		RE_SelectedText->SetText(FText::FromString("Disabled"));
+	}
+	else if(CurrentScreenMode == 2)
+	{
+		SM_SelectedText->SetText(FText::FromString("Windowed"));
+		if(CurrentResolutionNumber.X==1920&&CurrentResolutionNumber.Y==1080)
+		{
+			RE_SelectedText->SetText(FText::FromString("1920x1080"));
+		}
+		else if(CurrentResolutionNumber.X==2560&&CurrentResolutionNumber.Y==1440)
+		{
+			RE_SelectedText->SetText(FText::FromString("2560x1440"));
+		}
+		else if(CurrentResolutionNumber.X==2560&&CurrentResolutionNumber.Y==1600)
+		{
+			RE_SelectedText->SetText(FText::FromString("2560x1600"));
+		}
+		else if(CurrentResolutionNumber.X==3840&&CurrentResolutionNumber.Y==2160)
+		{
+			RE_SelectedText->SetText(FText::FromString("3840x2160"));
+		}
 	}
 	
-	if(FullScreenMode==0)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Full Screen"));
-	}
-	else if(FullScreenMode==1)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Windowed Full screen"));
-	}
-	else if(FullScreenMode==2)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Windowed"));
-	}
 }
 
 void USettingWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	//UE_LOG(LogTemp, Warning, TEXT("Current Resolution: %d %d"), ResolutionNumber.X, ResolutionNumber.Y);
-	//UE_LOG(LogTemp, Warning, TEXT("Current Mode: %d"),FullScreenMode);
-	
-}
-
-void USettingWidget::ResolutionButtonOnClick()
-{
-	if(FullScreenMode==2)
-	{
-		if(ResolutionNumber.X == 1920&&ResolutionNumber.Y== 1080)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1440"));
-			GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
-			GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(2560, 1440));
-			GEngine->GetGameUserSettings()->ApplySettings(true);
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1440)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1600"));
-			GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
-			GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(2560, 1600));
-			GEngine->GetGameUserSettings()->ApplySettings(true);
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1600)
-		{
-			CurrentResolution->SetText(FText::FromString("1920x1080"));
-			GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
-			GEngine->GetGameUserSettings()->SetScreenResolution(FIntPoint(1920, 1080));
-			GEngine->GetGameUserSettings()->ApplySettings(true);
-		}
-	}
-	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
-	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
-	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
-}
-
-void USettingWidget::ScreenModeButtonOnClick()
-{
-	if(FullScreenMode==0)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Windowed Full screen"));
-		GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::WindowedFullscreen);
-		GEngine->GetGameUserSettings()->ApplySettings(true);
-	}
-	else if(FullScreenMode==1)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Windowed"));
-		GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Windowed);
-		GEngine->GetGameUserSettings()->SetScreenResolution(DesktopResolutionNumber);
-		if(ResolutionNumber.X == 1920&&ResolutionNumber.Y== 1080){
-			CurrentResolution->SetText(FText::FromString("1920x1080"));	
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1440)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1440"));
-		}
-		else if(ResolutionNumber.X==2560&&ResolutionNumber.Y== 1600)
-		{
-			CurrentResolution->SetText(FText::FromString("2560x1600"));
-		}
-		GEngine->GetGameUserSettings()->ApplySettings(true);
-	}
-	else if(FullScreenMode==2)
-	{
-		CurrentScreenMode->SetText(FText::FromString("Full screen"));
-		CurrentResolution->SetText(FText::FromString("Can not Change"));
-		GEngine->GetGameUserSettings()->SetScreenResolution(DesktopResolutionNumber);
-		GEngine->GetGameUserSettings()->SetFullscreenMode(EWindowMode::Fullscreen);
-		GEngine->GetGameUserSettings()->ApplySettings(true);
-	}
-	ResolutionNumber = GEngine->GetGameUserSettings()->GetScreenResolution();
-	FullScreenMode = GEngine->GetGameUserSettings()->GetFullscreenMode();
-	DesktopResolutionNumber = GEngine->GetGameUserSettings()->GetDesktopResolution();
 }
 
