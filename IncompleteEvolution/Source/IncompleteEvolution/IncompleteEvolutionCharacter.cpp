@@ -37,6 +37,8 @@ AIncompleteEvolutionCharacter::AIncompleteEvolutionCharacter()
 	Mesh1P->CastShadow = false;
 	//Mesh1P->SetRelativeRotation(FRotator(0.9f, -19.19f, 5.2f));
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
+
+	GrabHandle = CreateDefaultSubobject<UPhysicsHandle>(TEXT("Grab Handle"));
 	
 }
 
@@ -68,53 +70,63 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 	
 	if(WhetherGrab)
 	{
-		UKismetProceduralMeshLibrary::GetSectionFromStaticMesh(
-			StaticMeshComponentREF->GetStaticMesh(),0,0,
-			VecticesList,TrianglesList,NormalsList,UVsList,
-			TangentsList);
-		UE_LOG(LogTemp,Warning,TEXT("VerticeList, %f"),VecticesList.Num());
-		UE_LOG(LogTemp,Warning,TEXT("-------------------------------"));
-		for(FVector Vectice:VecticesList)
+		if(WhetherScale)
 		{
-			FVector TempTransform = UKismetMathLibrary::TransformLocation(
-				StaticMeshComponentREF->GetComponentTransform(),Vectice);
-			UnitDirection = UKismetMathLibrary::GetDirectionUnitVector(
-				FirstPersonCameraComponent->GetComponentLocation(),TempTransform);
-			CallMyTrace(2);
-		}
+			UKismetProceduralMeshLibrary::GetSectionFromStaticMesh(
+				StaticMeshComponentREF->GetStaticMesh(),0,0,
+				VecticesList,TrianglesList,NormalsList,UVsList,
+				TangentsList);
+			UE_LOG(LogTemp,Warning,TEXT("VerticeList, %f"),VecticesList.Num());
+			UE_LOG(LogTemp,Warning,TEXT("-------------------------------"));
+			for(FVector Vectice:VecticesList)
+			{
+				FVector TempTransform = UKismetMathLibrary::TransformLocation(
+					StaticMeshComponentREF->GetComponentTransform(),Vectice);
+				UnitDirection = UKismetMathLibrary::GetDirectionUnitVector(
+					FirstPersonCameraComponent->GetComponentLocation(),TempTransform);
+				CallMyTrace(2);
+			}
 		
-		if(HitComponentREF->GetComponentRotation().Roll>45.||
-			HitComponentREF->GetComponentRotation().Roll<-45.||
-			HitComponentREF->GetComponentRotation().Pitch>45.||
-			HitComponentREF->GetComponentRotation().Pitch<-45.)
-		{
-			CustomDistance = 0.75;
+			if(HitComponentREF->GetComponentRotation().Roll>45.||
+				HitComponentREF->GetComponentRotation().Roll<-45.||
+				HitComponentREF->GetComponentRotation().Pitch>45.||
+				HitComponentREF->GetComponentRotation().Pitch<-45.)
+			{
+				CustomDistance = 0.75;
+			}
+			else
+			{
+				CustomDistance = 0.95;
+			}
+		
+			float DistanceMulti = ClosestDistance*CustomDistance;
+			FVector TempUnitDirection = UKismetMathLibrary::GetDirectionUnitVector(
+				GetFirstPersonCameraComponent()->GetComponentLocation(),
+				HitComponentREF->GetComponentLocation());
+			FVector TempLerp = UKismetMathLibrary::VLerp(
+				TempUnitDirection,GetFirstPersonCameraComponent()->GetForwardVector(),
+				Amount);
+			FVector TempLerpDistance = UKismetMathLibrary::Multiply_VectorFloat(
+				TempLerp,DistanceMulti);
+			HitComponentREF->SetWorldLocation(UKismetMathLibrary::Add_VectorVector(
+				GetFirstPersonCameraComponent()->GetComponentLocation(),
+				TempLerpDistance));
+
+			float RatioCurOri = DistanceMulti/OriginalDistance;
+			FVector ScaleChange= UKismetMathLibrary::Multiply_VectorFloat(
+				OriginalScale,RatioCurOri);
+			HitComponentREF->SetWorldScale3D(UKismetMathLibrary::ClampVectorSize(
+					ScaleChange,0.1,50.));
+			ClosestDistance = 50000;
+			CustomDistance = 0;
 		}
 		else
 		{
-			CustomDistance = 0.95;
+			const FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
+			FVector ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
+			FVector End = Start + ForwardVector * SingleGrabDistance;
+			GrabHandle->SetTargetLocation(End);
 		}
-		
-		float DistanceMulti = ClosestDistance*CustomDistance;
-		FVector TempUnitDirection = UKismetMathLibrary::GetDirectionUnitVector(
-			GetFirstPersonCameraComponent()->GetComponentLocation(),
-			HitComponentREF->GetComponentLocation());
- 		FVector TempLerp = UKismetMathLibrary::VLerp(
- 			TempUnitDirection,GetFirstPersonCameraComponent()->GetForwardVector(),
- 			Amount);
-		FVector TempLerpDistance = UKismetMathLibrary::Multiply_VectorFloat(
-			TempLerp,DistanceMulti);
-		HitComponentREF->SetWorldLocation(UKismetMathLibrary::Add_VectorVector(
-			GetFirstPersonCameraComponent()->GetComponentLocation(),
-			TempLerpDistance));
-
-		float RatioCurOri = DistanceMulti/OriginalDistance;
-		FVector ScaleChange= UKismetMathLibrary::Multiply_VectorFloat(
-			OriginalScale,RatioCurOri);
-		HitComponentREF->SetWorldScale3D(UKismetMathLibrary::ClampVectorSize(
-			ScaleChange,0.1,50.));
-		ClosestDistance = 50000;
-		CustomDistance = 0;
 	}
 	else
 	{
@@ -155,6 +167,7 @@ void AIncompleteEvolutionCharacter::SetupPlayerInputComponent(class UInputCompon
 
 		PlayerInputComponent->BindAction("Grab",IE_Pressed,this,&AIncompleteEvolutionCharacter::Grab);
 		PlayerInputComponent->BindAction("Interact",IE_Pressed,this,&AIncompleteEvolutionCharacter::Interact);
+		PlayerInputComponent->BindAction("SingleGrab",IE_Pressed,this,&AIncompleteEvolutionCharacter::SingleGrab);
 	}
 }
 
@@ -192,6 +205,33 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+void AIncompleteEvolutionCharacter::SingleGrab()
+{
+	if(!WhetherGrab)
+	{
+		CallMyTrace(5);
+	}
+	else
+	{
+		GrabHandle->ReleaseComponent();
+		HitActor = nullptr;
+		SingleGrabDistance = 0;
+		WhetherGrab = false;
+	}
+}
+
+void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
+{
+	if(Cast<AActorGrab>(HitOut.GetActor()))
+	{
+		GrabHandle ->GrabComponentAtLocationWithRotation(HitOut.GetComponent(),HitOut.BoneName,
+			HitOut.GetActor()->GetActorLocation(),FRotator(0,0,0));
+		WhetherGrab = true;
+		HitActor = Cast<AActorGrab>(HitOut.GetActor());
+		SingleGrabDistance=GetDistanceTo(HitActor);
+	}
+}
+
 void AIncompleteEvolutionCharacter::Grab()
 {
 	if(!WhetherGrab)
@@ -205,12 +245,12 @@ void AIncompleteEvolutionCharacter::Grab()
 		HitComponentREF->SetPhysicsLinearVelocity(FVector(0,0,0));
 		HitComponentREF->SetPhysicsAngularVelocityInDegrees(FVector(0,0,0));
 		WhetherGrab = false;
+		WhetherScale = false;
 		ClosestDistance = 50000;
 		HitActor->SetActorEnableCollision(true);
 		HitActor->IsGrabbing = false;
 		HitActor = nullptr;
 	}
-	
 }
 
 bool AIncompleteEvolutionCharacter::Trace(UWorld* World, TArray<AActor*>& ActorsToIgnore, const FVector& Start,
@@ -252,7 +292,7 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	FVector ForwardVector;
 	FVector End;
 	
-	if(Number == 1)
+	if(Number == 1||Number == 3||Number == 4||Number == 5)
 	{
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
 		End = Start + ForwardVector * 1000.f;
@@ -261,16 +301,6 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	{
 		ForwardVector = UnitDirection * 5000.f;
 		End = Start + ForwardVector;
-	}
-	else if(Number == 3)
-	{
-		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-		End = Start + ForwardVector * 1000.f;
-	}
-	else if(Number == 4)
-	{
-		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-		End = Start + ForwardVector * 1000.f;
 	}
 	
 	FHitResult HitData(ForceInit);
@@ -304,6 +334,10 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 			{
 				ProcessInteractHit(HitData);
 			}
+			else if(Number == 5)
+			{
+				ProcessSingleGrabHit(HitData);
+			}
 		} else
 		{
 			// The trace did not return an Actor
@@ -327,15 +361,18 @@ void AIncompleteEvolutionCharacter::ProcessGrabHit(FHitResult& HitOut)
 		HitComponentREF->SetSimulatePhysics(false);
 		StaticMeshComponentREF = Cast<UStaticMeshComponent>(HitComponentREF);
 		HitActor = Cast<AActorGrab>(HitOut.GetActor());
-		HitActor->SetActorEnableCollision(false);
+		
+		WhetherGrab = true;
+		WhetherScale = true;
+		
 		HitActor->IsGrabbing = true;
+		HitActor->SetActorEnableCollision(false);
+		
 		HitComponentREF->AttachToComponent(
 			this->FirstPersonCameraComponent,FAttachmentTransformRules::KeepWorldTransform);
-		WhetherGrab = true;
 		OriginalDistance = UKismetMathLibrary::Vector_Distance(
 			HitComponentREF->GetComponentLocation(),FirstPersonCameraComponent->GetComponentLocation());
 		OriginalScale = HitComponentREF->GetComponentScale();
-		
 	}
 }
 

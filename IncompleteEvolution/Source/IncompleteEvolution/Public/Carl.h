@@ -5,16 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
-#include "LabDoor.generated.h"
+#include "Carl.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API ALabDoor : public AActor,public IInteractInterface
+class INCOMPLETEEVOLUTION_API ACarl : public AActor,public IInteractInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ALabDoor();
+	ACarl();
 
 	UFUNCTION()
 	virtual FString OnInteract()override;
@@ -23,22 +23,25 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* LeftDoor;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* RightDoor;
+	UStaticMeshComponent* MainBody;
+
+	void TurnOn();
+	void Talk();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool Opening = false;
-	float CurrentTime;
-	const float TimeLimit = 5;
+	bool IsTurn = false;
+	bool IsTalk = false;
 	
+	int Time;
 	UPROPERTY(EditAnywhere)
-	bool IsLocked;
-	
-	UFUNCTION()
-	void OpenDoor();
+	TArray<FString> ConversationMessage1;
 
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationMessage2;
+
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationMessage3;
 };

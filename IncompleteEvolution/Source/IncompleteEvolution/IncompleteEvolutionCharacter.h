@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "ProceduralMeshComponent.h"
 #include "KismetProceduralMeshLibrary.h"
+#include "PhysicsHandle.h"
 #include "ActorGrab.h"
 #include "IncompleteEvolutionCharacter.generated.h"
 
@@ -42,6 +43,8 @@ class AIncompleteEvolutionCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	UPROPERTY(EditAnywhere)
+	class UPhysicsHandle* GrabHandle;
 	
 public:
 	AIncompleteEvolutionCharacter();
@@ -74,6 +77,11 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+    // Single Grab System
+	void SingleGrab();
+	void ProcessSingleGrabHit(FHitResult& HitOut);
+	float SingleGrabDistance;
 
 	// Grab System
 	void Grab();
@@ -131,7 +139,7 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherGrab = false;
-
+	bool WhetherScale = false;
 	bool TargetUpdate;
 	FString TaskText;
 

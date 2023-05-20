@@ -17,7 +17,7 @@ public:
 	AKeyCard();
 	
 	UFUNCTION()
-	virtual FString OnInteract();
+	virtual FString OnInteract() override;
 
 protected:
 	// Called when the game starts or when spawned
