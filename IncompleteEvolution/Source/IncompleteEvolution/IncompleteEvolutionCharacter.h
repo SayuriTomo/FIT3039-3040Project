@@ -82,6 +82,7 @@ protected:
 	void SingleGrab();
 	void ProcessSingleGrabHit(FHitResult& HitOut);
 	float SingleGrabDistance;
+	bool SingleGrabActive;
 
 	// Grab System
 	void Grab();
@@ -90,6 +91,7 @@ protected:
     			FHitResult& HitOut,ECollisionChannel CollisionChannel,bool ReturnPhysMat);
     void CallMyTrace(int Number);
 	void ProcessGrabHit(FHitResult& HitOut);
+	bool GrabActive;
 	
 	// Component Grab
 	UPrimitiveComponent* HitComponentREF;

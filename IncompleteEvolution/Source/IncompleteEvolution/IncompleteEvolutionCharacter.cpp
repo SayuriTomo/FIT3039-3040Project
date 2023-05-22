@@ -207,16 +207,20 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 
 void AIncompleteEvolutionCharacter::SingleGrab()
 {
-	if(!WhetherGrab)
+	if(!WhetherGrab&&!GrabActive)
 	{
 		CallMyTrace(5);
 	}
 	else
 	{
-		GrabHandle->ReleaseComponent();
-		HitActor = nullptr;
-		SingleGrabDistance = 0;
-		WhetherGrab = false;
+		if(SingleGrabActive)
+		{
+			GrabHandle->ReleaseComponent();
+			HitActor = nullptr;
+			SingleGrabDistance = 0;
+			WhetherGrab = false;
+			SingleGrabActive =false;
+		}
 	}
 }
 
@@ -229,27 +233,32 @@ void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 		WhetherGrab = true;
 		HitActor = Cast<AActorGrab>(HitOut.GetActor());
 		SingleGrabDistance=GetDistanceTo(HitActor);
+		SingleGrabActive = true;
 	}
 }
 
 void AIncompleteEvolutionCharacter::Grab()
 {
-	if(!WhetherGrab)
+	if(!WhetherGrab&&!SingleGrabActive)
 	{
 		CallMyTrace(1);
 	}
 	else
 	{
-		HitComponentREF->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		HitComponentREF->SetSimulatePhysics(true);
-		HitComponentREF->SetPhysicsLinearVelocity(FVector(0,0,0));
-		HitComponentREF->SetPhysicsAngularVelocityInDegrees(FVector(0,0,0));
-		WhetherGrab = false;
-		WhetherScale = false;
-		ClosestDistance = 50000;
-		HitActor->SetActorEnableCollision(true);
-		HitActor->IsGrabbing = false;
-		HitActor = nullptr;
+		if(GrabActive)
+		{
+			HitComponentREF->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+			HitComponentREF->SetSimulatePhysics(true);
+			HitComponentREF->SetPhysicsLinearVelocity(FVector(0,0,0));
+			HitComponentREF->SetPhysicsAngularVelocityInDegrees(FVector(0,0,0));
+			WhetherGrab = false;
+			WhetherScale = false;
+			ClosestDistance = 50000;
+			HitActor->SetActorEnableCollision(true);
+			HitActor->IsGrabbing = false;
+			HitActor = nullptr;
+			GrabActive = false;
+		}
 	}
 }
 
@@ -357,6 +366,7 @@ void AIncompleteEvolutionCharacter::ProcessGrabHit(FHitResult& HitOut)
 {
 	if(Cast<AActorGrab>(HitOut.GetActor()))
 	{
+		GrabActive = true;
 		HitComponentREF = HitOut.GetComponent();
 		HitComponentREF->SetSimulatePhysics(false);
 		StaticMeshComponentREF = Cast<UStaticMeshComponent>(HitComponentREF);
