@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
+#include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "Carl.generated.h"
 
 UCLASS()
@@ -17,31 +18,29 @@ public:
 	ACarl();
 
 	UFUNCTION()
-	virtual FString OnInteract()override;
+	virtual FString OnInteract();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MainBody;
-
+	
 	void TurnOn();
-	void Talk();
+	FString Talk();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	bool FirstTouch = true;
 	bool IsTurn = false;
 	bool IsTalk = false;
 	
 	int Time;
 	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage1;
+	TArray<FString> ConversationMessage={"Hi,Ethan","Who is Ethan","I fine thank you and you"};
 
 	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage2;
-
-	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage3;
+	TArray<FString> ConversationCharacter = {"? ? ?","? ? ?","? ? ?"};
 };

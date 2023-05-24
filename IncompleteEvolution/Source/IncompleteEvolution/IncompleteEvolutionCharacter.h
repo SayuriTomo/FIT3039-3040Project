@@ -137,7 +137,13 @@ public:
 	bool AimInteract = false;
 	void ProcessAimHit(FHitResult& HitOut);
 	FString InteractText;
-	bool Interacting;
+	FString InteractCharacterName;
+	AActor* InteractActor;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool Interacting = false;
+	
+	bool InteractingEnd = false;
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherGrab = false;

@@ -24,12 +24,17 @@ FString ALabDoor::OnInteract()
 	
 	if(IsLocked&&!Player->GetKey)
 	{
+		Player -> InteractCharacterName = "Player";
 		InteractMessage = "It seems to be locked";
+		Player->InteractingEnd = true;
 		return InteractMessage;
 	}
 	else
 	{
 		OpenDoor();
+		Player -> InteractCharacterName = "Door";
+		InteractMessage = "Opening";
+		Player->InteractingEnd = true;
 		return InteractMessage;
 	}
 }

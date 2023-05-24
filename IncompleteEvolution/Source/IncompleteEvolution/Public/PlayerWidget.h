@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "Components/TextBlock.h"
+#include "Components/Button.h"
 #include "GameFramework/GameUserSettings.h"
 #include "PlayerWidget.generated.h"
 
@@ -25,18 +26,29 @@ protected:
 	class UImage* AimingCrossHair;
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UImage* DialogLine;
+	
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* InteractHint;
 
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* InteractCharacter;
+	
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* InteractMessage;
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* TaskMessage;
 
-	float CurrentTime;
-	const float TimeLimit = 5;
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* ConversationHint;
+	
 	UPROPERTY(BlueprintReadWrite)
 	AIncompleteEvolutionCharacter* Player;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool Interacting;
+	
 	virtual void NativeConstruct () override;
 	virtual void NativeTick (const FGeometry& MyGeometry, float InDeltaTime) override;
 };

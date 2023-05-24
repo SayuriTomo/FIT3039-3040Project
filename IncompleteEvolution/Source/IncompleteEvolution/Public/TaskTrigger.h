@@ -36,6 +36,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	FString InteractMessage;
 
-	int TimeLimit=0;
+	bool TimeLimit=false;
 };
 

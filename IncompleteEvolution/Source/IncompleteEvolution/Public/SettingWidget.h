@@ -18,28 +18,6 @@ class INCOMPLETEEVOLUTION_API USettingWidget : public UUserWidget
 {
 	GENERATED_BODY()
 protected:
-	//FIntPoint ResolutionNumber;
-	/*
-	UPROPERTY(meta = (BindWidget))
-	class UButton* ResolutionButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* CurrentResolution;
-	
-	UFUNCTION()
-	void ResolutionButtonOnClick();
-
-	int FullScreenMode;
-	UPROPERTY(meta = (BindWidget))
-	class UButton* ScreenModeButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* CurrentScreenMode;
-	
-	UFUNCTION()
-	void ScreenModeButtonOnClick();
-	
-	*/
 	// Screen Mode Component
 	int CurrentScreenMode;
 	FIntPoint DesktopResolutionNumber;

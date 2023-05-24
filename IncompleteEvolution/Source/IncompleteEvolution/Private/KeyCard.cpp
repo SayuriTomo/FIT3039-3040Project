@@ -21,6 +21,8 @@ FString AKeyCard::OnInteract()
 	InteractMessage = "Got it! It should be the key card!";
 	AIncompleteEvolutionCharacter* Player =
 		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	Player -> InteractCharacterName = "Player";
+	Player->InteractingEnd = true;
 	Player->GetKey=true;
 	Player->TargetUpdate=true;
 	Player->TaskText = "Thanks! All is finished. Feel free to visit.";

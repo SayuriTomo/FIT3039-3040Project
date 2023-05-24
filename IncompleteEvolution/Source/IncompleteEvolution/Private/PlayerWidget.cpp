@@ -5,21 +5,21 @@
 
 #include "Components/Image.h"
 
+
 void UPlayerWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	InteractHint->SetText(FText::FromString("Press F To Interact"));
-
-	
+	InteractHint->SetText(FText::FromString("[F] Interact"));
 }
 
 void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+	
 	if(Player)
 	{
-		
+		Interacting = Player->Interacting;
 		if(Player->WhetherGrab)
 		{
 			OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
@@ -50,27 +50,37 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 		if(Player->Interacting)
 		{
-			if(CurrentTime<TimeLimit)
-			{
-				InteractMessage->SetText(FText::FromString(Player->InteractText));
-				InteractMessage->SetVisibility(ESlateVisibility::Visible);
-				CurrentTime += InDeltaTime;
-			}
-			else
-			{
-				Player->Interacting = false;
-				CurrentTime = 0;
-			}
+			InteractMessage->SetText(FText::FromString(Player->InteractText));
+			InteractMessage->SetVisibility(ESlateVisibility::Visible);
+
+			InteractCharacter->SetText(FText::FromString(Player->InteractCharacterName));
+			InteractCharacter->SetVisibility(ESlateVisibility::Visible);
+
+			DialogLine->SetVisibility(ESlateVisibility::Visible);
+
+			ConversationHint->SetVisibility(ESlateVisibility::Visible);
+			
 		}
 		else
 		{
+			Player->Interacting = false;
+			Player->InteractText = nullptr;
+			
 			InteractMessage->SetVisibility(ESlateVisibility::Hidden);
+			
+			DialogLine->SetVisibility(ESlateVisibility::Hidden);
+			
+			InteractCharacter->SetVisibility(ESlateVisibility::Hidden);
+			
+			ConversationHint->SetVisibility(ESlateVisibility::Hidden);
+			
 		}
 
 		if(Player->TargetUpdate)
 		{
 			TaskMessage->SetText(FText::FromString(Player->TaskText));
 			Player->TargetUpdate=false;
+			Player->TaskText = nullptr;
 		}
 	}
 }

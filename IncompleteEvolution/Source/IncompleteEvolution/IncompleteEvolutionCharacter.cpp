@@ -57,8 +57,9 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 	}
 
 	Interacting = true;
+	InteractCharacterName = "Player";
 	InteractText = "Who set me here? I need to get out of here.";
-
+	InteractingEnd= true;
 	TargetUpdate = true;
 	TaskText = "1. Leave Room";
 
@@ -76,8 +77,6 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 				StaticMeshComponentREF->GetStaticMesh(),0,0,
 				VecticesList,TrianglesList,NormalsList,UVsList,
 				TangentsList);
-			UE_LOG(LogTemp,Warning,TEXT("VerticeList, %f"),VecticesList.Num());
-			UE_LOG(LogTemp,Warning,TEXT("-------------------------------"));
 			for(FVector Vectice:VecticesList)
 			{
 				FVector TempTransform = UKismetMathLibrary::TransformLocation(
@@ -138,7 +137,26 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 
 void AIncompleteEvolutionCharacter::Interact()
 {
-	CallMyTrace(4);
+	if(!Interacting)
+	{
+		CallMyTrace(4);
+	}
+	else
+	{
+		if(InteractingEnd)
+		{
+			Interacting = false;
+			InteractingEnd= false;
+			InteractActor= nullptr;
+		}
+		else
+		{
+			if(InteractActor)
+			{
+				InteractText = Cast<IInteractInterface>(InteractActor)->OnInteract();
+			}
+		}
+	}
 }
 
 void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
@@ -147,6 +165,7 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 	{
 		InteractText = ActorCheck->OnInteract();
 		Interacting = true;
+		InteractActor = HitOut.GetActor();
 	}
 }
 

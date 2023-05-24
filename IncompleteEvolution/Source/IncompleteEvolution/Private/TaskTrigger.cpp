@@ -31,7 +31,7 @@ void ATaskTrigger::Tick(float DeltaTime)
 
 void ATaskTrigger::TriggerOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if(TimeLimit==0)
+	if(!TimeLimit)
 	{
 		if(OtherActor && OtherActor != this && Cast<AIncompleteEvolutionCharacter>(OtherActor))
 		{
@@ -40,7 +40,8 @@ void ATaskTrigger::TriggerOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 			Player->TargetUpdate=true;
 			Player->TaskText = TaskMessage;
 			Player->InteractText = InteractMessage;
-			TimeLimit += 1;
+			Player->InteractingEnd = true;
+			TimeLimit = true;
 		}
 	}
 }
