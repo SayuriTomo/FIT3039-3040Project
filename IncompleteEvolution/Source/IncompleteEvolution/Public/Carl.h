@@ -39,7 +39,7 @@ public:
 	
 	int Time;
 	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage={"Hi,Ethan","Who is Ethan","I fine thank you and you"};
+	TArray<FString> ConversationMessage={"Hi,Ethan","Who is Ethan","I'm fine thank you and you"};
 
 	UPROPERTY(EditAnywhere)
 	TArray<FString> ConversationCharacter = {"? ? ?","? ? ?","? ? ?"};
