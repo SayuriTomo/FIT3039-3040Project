@@ -18,15 +18,15 @@ AKeyCard::AKeyCard()
 FString AKeyCard::OnInteract()
 {
 	FString InteractMessage;
-	InteractMessage = "Got it! It should be the key card!";
+	InteractMessage = "Got it! It should be the key card! Return to Carl!";
 	AIncompleteEvolutionCharacter* Player =
 		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	Player -> InteractCharacterName = "Player";
+	Player->InteractCharacterName = "Ethan";
 	Player->InteractingEnd = true;
 	Player->GetKey=true;
-	Player->TargetUpdate=true;
-	Player->TaskText = "Thanks! All is finished. Feel free to visit.";
+	
 	this->Destroy();
+	
 	return InteractMessage;
 }
 

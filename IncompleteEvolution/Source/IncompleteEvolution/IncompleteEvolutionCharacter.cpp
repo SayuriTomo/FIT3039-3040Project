@@ -58,7 +58,7 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 
 	Interacting = true;
 	InteractCharacterName = "Player";
-	InteractText = "Who set me here? I need to get out of here.";
+	InteractText = "Where is here";
 	InteractingEnd= true;
 	TargetUpdate = true;
 	TaskText = "1. Leave Room";
@@ -210,17 +210,10 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		if (WhetherGrab)
-		{
-			AddControllerYawInput(LookAxisVector.X/3);
-			AddControllerPitchInput(LookAxisVector.Y/3);
-		}
-		else
-		{
-			// add yaw and pitch input to controller
-			AddControllerYawInput(LookAxisVector.X/2);
-			AddControllerPitchInput(LookAxisVector.Y/2);
-		}
+		// add yaw and pitch input to controller
+		AddControllerYawInput(LookAxisVector.X/2);
+		AddControllerPitchInput(LookAxisVector.Y/2);
+		
 	}
 }
 

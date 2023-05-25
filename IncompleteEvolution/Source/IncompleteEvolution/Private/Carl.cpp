@@ -21,23 +21,30 @@ FString ACarl::OnInteract()
 	AIncompleteEvolutionCharacter* Player =Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	if(!IsTurn)
 	{
-		if(FirstTouch)
+		if(FirstTouch == 0)
 		{
 			Player->InteractCharacterName = "Player";
 			InteractMessage = "What is it?";
-			FirstTouch = false;
+			FirstTouch +=1;
 		}
-		else
+		else if(FirstTouch == 1)
 		{
 			TurnOn();
 			Player->InteractCharacterName = "? ? ?";
-			InteractMessage = "Starting up";
+			InteractMessage = "Restarting";
+			FirstTouch +=1;
 		}
 	}
 	else
 	{
-		InteractMessage = Talk();
-		
+		if(FirstTouch == 2)
+		{
+			InteractMessage = Introduce();
+		}
+		else if(FirstTouch>2)
+		{
+			InteractMessage = Talk();
+		}
 	}
 	return InteractMessage;
 }
@@ -47,21 +54,59 @@ void ACarl::TurnOn()
 	IsTurn = true;
 }
 
+FString ACarl::Introduce()
+{
+	AIncompleteEvolutionCharacter* Player =Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	FString InteractMessage;
+	if(ConversationTime<IntroductionMessage.Num())
+	{
+		Player->InteractCharacterName = IntroductionCharacter[ConversationTime];
+		InteractMessage = IntroductionMessage[ConversationTime];
+		ConversationTime += 1;
+		if(ConversationTime == IntroductionMessage.Num())
+		{
+			ConversationTime = 0;
+			Player->InteractingEnd = true;
+			Player->TargetUpdate = true;
+			Player->TaskText = "3. Find the Key card";
+			FirstTouch+=1;
+		}
+	}
+	return InteractMessage;
+}
+
 FString ACarl::Talk()
 {
 	AIncompleteEvolutionCharacter* Player =Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	FString InteractMessage;
-	if(Time<ConversationMessage.Num())
+	if(!Player->GetKey)
 	{
-		Player->InteractCharacterName = ConversationCharacter[Time];
-		InteractMessage = ConversationMessage[Time];
-		Time += 1;
-		if(Time == ConversationMessage.Num())
+		if(ConversationTime<ConversationMessage.Num())
 		{
-			Time =0;
-			Player->InteractingEnd = true;
-			Player->TargetUpdate=true;
-			Player->TaskText = "3. Find the Key card";
+			Player->InteractCharacterName = ConversationCharacter[ConversationTime];
+			InteractMessage = ConversationMessage[ConversationTime];
+			ConversationTime += 1;
+			if(ConversationTime == ConversationMessage.Num())
+			{
+				ConversationTime = 0;
+				Player->InteractingEnd = true;
+			}
+		}
+	}
+	else
+	{
+		if(ConversationTime<ConversationMessage1.Num())
+		{
+			Player->InteractCharacterName = ConversationCharacter1[ConversationTime];
+			InteractMessage = ConversationMessage1[ConversationTime];
+			ConversationTime += 1;
+			if(ConversationTime == ConversationMessage1.Num())
+			{
+				ConversationTime = 0;
+				Player->InteractingEnd = true;
+				Player->TargetUpdate=true;
+				Player->TaskText = "Thanks! All is finished. Feel free to visit.";
+			}
 		}
 	}
 	return InteractMessage;

@@ -27,20 +27,40 @@ protected:
 	UStaticMeshComponent* MainBody;
 	
 	void TurnOn();
+	FString Introduce();
 	FString Talk();
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool FirstTouch = true;
+	float FirstTouch = 0;
 	bool IsTurn = false;
 	bool IsTalk = false;
 	
-	int Time;
-	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage={"Hi,Ethan","Who is Ethan","I'm fine thank you and you"};
+	int ConversationTime;
 
 	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationCharacter = {"? ? ?","? ? ?","? ? ?"};
+	TArray<FString> IntroductionMessage={"Hi,Ethan","Who are you","That's weird, but I amd Carl",
+		"I am sure that we know each other", "...","So my name is Ethan","Sure",
+		"Sorry, I don't remember anything","Oh, it must be the side effect","Side effect? What happened on me?",
+		"Access restriction!","It seems I don't have permission to access this","Could you find a key card for me?","It may help me access to this level",
+		"The card should be in Room 1"};
+
+	UPROPERTY(EditAnywhere)
+	TArray<FString> IntroductionCharacter = {"? ? ?","Player","? ? ?",
+		"Carl","Player","Ethan","Carl",
+		"Ethan","Carl","Ethan",
+		"Carl","Carl","Carl","Carl",
+		"Carl"};
+
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationMessage = {"It seems you don't get the key card","It should be in Room 1"};
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationCharacter ={"Carl", "Carl"};
+
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationMessage1 = {"You got it!"};
+	UPROPERTY(EditAnywhere)
+	TArray<FString> ConversationCharacter1 ={"Carl"};
 };
