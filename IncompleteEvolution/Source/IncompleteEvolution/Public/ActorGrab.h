@@ -26,4 +26,6 @@ public:
 
 	bool IsGrabbing = false;
 
+	bool IsFixing=false;
+
 };

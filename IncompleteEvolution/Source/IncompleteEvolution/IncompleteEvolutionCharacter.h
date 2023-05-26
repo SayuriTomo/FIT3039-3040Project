@@ -121,6 +121,9 @@ protected:
 	void Interact();
 	void ProcessInteractHit(FHitResult& HitOut);
 
+	void Fix();
+	void ProcessFixHit(FHitResult& HitOut);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;

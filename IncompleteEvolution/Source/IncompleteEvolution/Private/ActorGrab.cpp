@@ -32,7 +32,18 @@ void AActorGrab::Tick(float DeltaTime)
 	else
 	{
 		ActorMesh->SetCastShadow(true);
+		if(IsFixing)
+		{
+			ActorMesh->SetSimulatePhysics(false);
+		}
+		else
+		{
+			ActorMesh->SetSimulatePhysics(true);
+		}
 	}
+
+	
+
 
 }
 

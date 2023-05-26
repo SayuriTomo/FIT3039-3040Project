@@ -169,6 +169,26 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 	}
 }
 
+void AIncompleteEvolutionCharacter::Fix()
+{
+	CallMyTrace(6);
+}
+
+void AIncompleteEvolutionCharacter::ProcessFixHit(FHitResult& HitOut)
+{
+	if(Cast<AActorGrab>(HitOut.GetActor()))
+	{
+		if(Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
+		{
+			Cast<AActorGrab>(HitOut.GetActor())->IsFixing = false;
+		}
+		else
+		{
+			Cast<AActorGrab>(HitOut.GetActor())->IsFixing = true;
+		}
+	}
+}
+
 void AIncompleteEvolutionCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings
@@ -187,6 +207,7 @@ void AIncompleteEvolutionCharacter::SetupPlayerInputComponent(class UInputCompon
 		PlayerInputComponent->BindAction("Grab",IE_Pressed,this,&AIncompleteEvolutionCharacter::Grab);
 		PlayerInputComponent->BindAction("Interact",IE_Pressed,this,&AIncompleteEvolutionCharacter::Interact);
 		PlayerInputComponent->BindAction("SingleGrab",IE_Pressed,this,&AIncompleteEvolutionCharacter::SingleGrab);
+		PlayerInputComponent->BindAction("Fix",IE_Pressed,this,&AIncompleteEvolutionCharacter::Fix);
 	}
 }
 
@@ -240,12 +261,15 @@ void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 {
 	if(Cast<AActorGrab>(HitOut.GetActor()))
 	{
-		GrabHandle ->GrabComponentAtLocationWithRotation(HitOut.GetComponent(),HitOut.BoneName,
-			HitOut.GetActor()->GetActorLocation(),FRotator(0,0,0));
-		WhetherGrab = true;
-		HitActor = Cast<AActorGrab>(HitOut.GetActor());
-		SingleGrabDistance=GetDistanceTo(HitActor);
-		SingleGrabActive = true;
+		if(!Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
+		{
+			GrabHandle ->GrabComponentAtLocationWithRotation(HitOut.GetComponent(),HitOut.BoneName,
+				HitOut.GetActor()->GetActorLocation(),FRotator(0,0,0));
+			WhetherGrab = true;
+			HitActor = Cast<AActorGrab>(HitOut.GetActor());
+			SingleGrabDistance=GetDistanceTo(HitActor);
+			SingleGrabActive = true;
+		}
 	}
 }
 
@@ -313,7 +337,7 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	FVector ForwardVector;
 	FVector End;
 	
-	if(Number == 1||Number == 3||Number == 4||Number == 5)
+	if(Number == 1||Number == 3||Number == 4||Number == 5||Number==6)
 	{
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
 		End = Start + ForwardVector * 1000.f;
@@ -359,6 +383,10 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 			{
 				ProcessSingleGrabHit(HitData);
 			}
+			else if(Number ==6)
+			{
+				ProcessFixHit(HitData);
+			}
 		} else
 		{
 			// The trace did not return an Actor
@@ -378,23 +406,26 @@ void AIncompleteEvolutionCharacter::ProcessGrabHit(FHitResult& HitOut)
 {
 	if(Cast<AActorGrab>(HitOut.GetActor()))
 	{
-		GrabActive = true;
-		HitComponentREF = HitOut.GetComponent();
-		HitComponentREF->SetSimulatePhysics(false);
-		StaticMeshComponentREF = Cast<UStaticMeshComponent>(HitComponentREF);
-		HitActor = Cast<AActorGrab>(HitOut.GetActor());
+		if(!Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
+		{
+			GrabActive = true;
+			HitComponentREF = HitOut.GetComponent();
+			HitComponentREF->SetSimulatePhysics(false);
+			StaticMeshComponentREF = Cast<UStaticMeshComponent>(HitComponentREF);
+			HitActor = Cast<AActorGrab>(HitOut.GetActor());
 		
-		WhetherGrab = true;
-		WhetherScale = true;
+			WhetherGrab = true;
+			WhetherScale = true;
 		
-		HitActor->IsGrabbing = true;
-		HitActor->SetActorEnableCollision(false);
+			HitActor->IsGrabbing = true;
+			HitActor->SetActorEnableCollision(false);
 		
-		HitComponentREF->AttachToComponent(
-			this->FirstPersonCameraComponent,FAttachmentTransformRules::KeepWorldTransform);
-		OriginalDistance = UKismetMathLibrary::Vector_Distance(
-			HitComponentREF->GetComponentLocation(),FirstPersonCameraComponent->GetComponentLocation());
-		OriginalScale = HitComponentREF->GetComponentScale();
+			HitComponentREF->AttachToComponent(
+				this->FirstPersonCameraComponent,FAttachmentTransformRules::KeepWorldTransform);
+			OriginalDistance = UKismetMathLibrary::Vector_Distance(
+				HitComponentREF->GetComponentLocation(),FirstPersonCameraComponent->GetComponentLocation());
+			OriginalScale = HitComponentREF->GetComponentScale();
+		}
 	}
 }
 
