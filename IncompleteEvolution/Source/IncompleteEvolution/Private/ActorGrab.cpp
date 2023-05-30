@@ -11,14 +11,19 @@ AActorGrab::AActorGrab()
 	ActorMesh=CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Actor Mesh"));
 	ActorMesh->SetupAttachment(RootComponent);
 	ActorMesh->SetSimulatePhysics(true);
-
+	
 }
 
 // Called when the game starts or when spawned
 void AActorGrab::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	FBodyInstance* BodyInst = ActorMesh->GetBodyInstance();
+	if(BodyInst)
+	{
+		BodyInst->MassScale = 10;  
+		BodyInst->UpdateMassProperties();
+	}
 }
 
 // Called every frame

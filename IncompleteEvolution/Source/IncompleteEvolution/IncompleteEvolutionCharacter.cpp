@@ -123,13 +123,22 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 		{
 			const FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
 			FVector ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-			FVector End = Start + ForwardVector * SingleGrabDistance;
+			FVector End = Start + ForwardVector * 300.f;
 			GrabHandle->SetTargetLocation(End);
 		}
 	}
 	else
 	{
-		CallMyTrace(3);
+		if(AimTime>=AimTimeInterval)
+		{
+			CallMyTrace(3);
+			AimTime=0;
+		}
+		else
+		{
+			AimTime += 1;
+		}
+		
 	}
 }
 
@@ -216,11 +225,14 @@ void AIncompleteEvolutionCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
-	if (Controller != nullptr)
+	if(!Interacting)
 	{
-		// add movement 
-		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
-		AddMovementInput(GetActorRightVector(), MovementVector.X);
+		if (Controller != nullptr)
+		{
+			// add movement 
+			AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+			AddMovementInput(GetActorRightVector(), MovementVector.X);
+		}
 	}
 }
 
@@ -234,7 +246,6 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 		// add yaw and pitch input to controller
 		AddControllerYawInput(LookAxisVector.X/2);
 		AddControllerPitchInput(LookAxisVector.Y/2);
-		
 	}
 }
 
@@ -250,7 +261,6 @@ void AIncompleteEvolutionCharacter::SingleGrab()
 		{
 			GrabHandle->ReleaseComponent();
 			HitActor = nullptr;
-			SingleGrabDistance = 0;
 			WhetherGrab = false;
 			SingleGrabActive =false;
 		}
@@ -267,7 +277,6 @@ void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 				HitOut.GetActor()->GetActorLocation(),FRotator(0,0,0));
 			WhetherGrab = true;
 			HitActor = Cast<AActorGrab>(HitOut.GetActor());
-			SingleGrabDistance=GetDistanceTo(HitActor);
 			SingleGrabActive = true;
 		}
 	}

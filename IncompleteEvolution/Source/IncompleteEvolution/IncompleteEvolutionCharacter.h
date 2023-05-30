@@ -81,7 +81,6 @@ protected:
     // Single Grab System
 	void SingleGrab();
 	void ProcessSingleGrabHit(FHitResult& HitOut);
-	float SingleGrabDistance;
 	bool SingleGrabActive;
 
 	// Grab System
@@ -139,9 +138,13 @@ public:
 	bool AimGrab = false;
 	bool AimInteract = false;
 	void ProcessAimHit(FHitResult& HitOut);
+	float AimTime = 0;
+	const float AimTimeInterval = 10;
+	
 	FString InteractText;
 	FString InteractCharacterName;
 	AActor* InteractActor;
+	
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool Interacting = false;
