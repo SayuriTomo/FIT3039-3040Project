@@ -2,7 +2,6 @@
 
 
 #include "TaskTrigger.h"
-
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 
 // Sets default values

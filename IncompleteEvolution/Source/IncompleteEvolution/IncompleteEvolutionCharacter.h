@@ -158,5 +158,11 @@ public:
 	FString TaskText;
 
 	bool GetKey=false;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool AllowStand = true;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool WhetherCrouch = false;
 };
 
