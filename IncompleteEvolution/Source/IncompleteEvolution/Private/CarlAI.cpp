@@ -1,19 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Carl.h"
-
+#include "CarlAI.h"
 
 // Sets default values
-ACarl::ACarl()
+ACarlAI::ACarlAI()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	MainBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Body"));
-	MainBody->SetupAttachment(RootComponent);
+
+
+
 }
 
-FString ACarl::OnInteract()
+FString ACarlAI::OnInteract()
 {
 	FString InteractMessage;
 	if(!IsTurn)
@@ -46,26 +46,29 @@ FString ACarl::OnInteract()
 	return InteractMessage;
 }
 
-void ACarl::TurnOn()
+void ACarlAI::TurnOn()
 {
 	IsTurn = true;
 }
 
-FString ACarl::Introduce()
+FString ACarlAI::Introduce()
 {
+	
 	FString InteractMessage = ReadMessage(IntroductionMessage,IntroductionCharacter,2);
 	
 	Player->TargetUpdate = true;
 	
+	
 	return InteractMessage;
 }
 
-FString ACarl::Talk()
+FString ACarlAI::Talk()
 {
+	
 	FString InteractMessage;
 	if(!Player->GetKey)
 	{
-		 InteractMessage = ReadMessage(ConversationMessage,ConversationCharacter,3);
+		InteractMessage = ReadMessage(ConversationMessage,ConversationCharacter,3);
 	}
 	else
 	{
@@ -75,7 +78,7 @@ FString ACarl::Talk()
 	return InteractMessage;
 }
 
-FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,int Touch)
+FString ACarlAI::ReadMessage(TArray<FString> Message, TArray<FString> Character, int Touch)
 {
 	FString InteractMessage;
 	if(ConversationTime<Message.Num())
@@ -91,7 +94,7 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 			{
 				Player->TaskText = "3. Find the Key card";
 				FirstTouch+=1;
-				SetActorLocation(FVector(-4419,1249,1114));
+				Active = true;
 			}
 			else if(Touch==4)
 			{
@@ -105,16 +108,21 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 }
 
 // Called when the game starts or when spawned
-void ACarl::BeginPlay()
+void ACarlAI::BeginPlay()
 {
 	Super::BeginPlay();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 // Called every frame
-void ACarl::Tick(float DeltaTime)
+void ACarlAI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+// Called to bind functionality to input
+void ACarlAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 

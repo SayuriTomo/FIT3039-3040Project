@@ -3,45 +3,51 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "InteractInterface.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
-#include "Carl.generated.h"
+#include "CarlAI.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API ACarl : public AActor,public IInteractInterface
+class INCOMPLETEEVOLUTION_API ACarlAI : public ACharacter,public IInteractInterface
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ACarl();
 
+public:
+	// Sets default values for this character's properties
+	ACarlAI();
+	
 	UFUNCTION()
-	virtual FString OnInteract();
+    	virtual FString OnInteract();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* MainBody;
 	
 	void TurnOn();
-	FString Introduce();
-	FString Talk();
-
-	FString ReadMessage(TArray<FString> Message,TArray<FString> Character,int Touch);
+    FString Introduce();
+    FString Talk();
+    FString ReadMessage(TArray<FString> Message,TArray<FString> Character,int Touch);
 
 	UPROPERTY(BlueprintReadWrite)
 	AIncompleteEvolutionCharacter* Player;
+
+
+	
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	int FirstTouch = 0;
 	bool IsTurn = false;
 	bool IsTalk = false;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool Active = false;
 	
 	int ConversationTime;
 	
