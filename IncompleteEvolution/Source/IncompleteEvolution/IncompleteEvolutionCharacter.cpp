@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InteractInterface.h"
 #include "Components/ArrowComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -177,6 +178,10 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 		InteractText = ActorCheck->OnInteract();
 		Interacting = true;
 		InteractActor = HitOut.GetActor();
+		/*if(Music)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, Music, GetOwner()->GetActorLocation());
+		}*/
 	}
 }
 

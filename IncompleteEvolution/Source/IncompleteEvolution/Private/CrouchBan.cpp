@@ -49,10 +49,6 @@ void ACrouchBan::BoxOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor*
 	if(OtherActor && OtherActor != this && Cast<AIncompleteEvolutionCharacter>(OtherActor))
 	{
 		Cast<AIncompleteEvolutionCharacter>(OtherActor)->AllowStand=true;
-		if(Cast<AIncompleteEvolutionCharacter>(OtherActor)->WhetherCrouch)
-		{
-			Cast<AIncompleteEvolutionCharacter>(OtherActor)->WhetherCrouch = false;
-		}
 	}
 }
 

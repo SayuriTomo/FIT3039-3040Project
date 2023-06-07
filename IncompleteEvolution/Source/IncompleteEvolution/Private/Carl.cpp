@@ -53,10 +53,8 @@ void ACarl::TurnOn()
 
 FString ACarl::Introduce()
 {
-	FString InteractMessage = ReadMessage(IntroductionMessage,IntroductionCharacter,2);
-	
+	FString InteractMessage = ReadMessage(M_GetKey,C_GetKey,2);
 	Player->TargetUpdate = true;
-	
 	return InteractMessage;
 }
 
