@@ -53,6 +53,16 @@ protected:
 	TArray<FString> M_HasGetKey = {"You got it!", "Now we need to go to Power Supply Room"};
 	TArray<FString> C_HasGetKey ={"Carl","Carl"};
 	
+	TArray<FString> M_Charging = {
+		"Reading---","Complete","OK, Ethan","I have got access to this level",
+		"Let's move to the next level","And I will explain what happened here",
+		"BTW, do you remember Emily", "Emily?","AHHHH","Breathing normal",
+		"Who is there","No.1002 Record","Continue the injection"};
+	TArray<FString> C_Charging ={
+		"Carl", "Carl", "Carl", "Carl",
+		"Carl", "Carl",
+		"Carl","Ethan","Ethan","???",
+		"Ethan","???","???"};
 
 	FString ReadMessage(TArray<FString> Message,
 		TArray<FString> Character,
@@ -71,4 +81,5 @@ public:
 	int T_Contact = 0;
 	bool IsTurn = false;
 	int Index;
+	FString Charging();
 };

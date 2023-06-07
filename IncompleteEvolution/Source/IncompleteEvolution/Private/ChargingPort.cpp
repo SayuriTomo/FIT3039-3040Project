@@ -15,8 +15,7 @@ AChargingPort::AChargingPort()
 
 FString AChargingPort::OnInteract()
 {
-	FString InteractMessage;
-	return InteractMessage;
+	return CarlActor->Charging();
 }
 
 
