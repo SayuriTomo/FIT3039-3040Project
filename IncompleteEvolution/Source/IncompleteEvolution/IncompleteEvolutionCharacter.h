@@ -148,7 +148,6 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool Interacting = false;
-	
 	bool InteractingEnd = false;
 	
 	UPROPERTY(BlueprintReadWrite)
@@ -157,7 +156,8 @@ public:
 	bool TargetUpdate;
 	FString TaskText;
 
-	bool GetKey=false;
+	UPROPERTY(EditAnywhere)
+	bool GetKey=true;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool AllowStand = true;

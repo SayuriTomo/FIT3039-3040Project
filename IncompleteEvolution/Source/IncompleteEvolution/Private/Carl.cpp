@@ -18,83 +18,80 @@ FString ACarl::OnInteract()
 	FString InteractMessage;
 	if(!IsTurn)
 	{
-		if(FirstTouch == 0)
-		{
-			Player->InteractCharacterName = "Player";
-			InteractMessage = "What is it?";
-			FirstTouch +=1;
-		}
-		else if(FirstTouch == 1)
-		{
-			TurnOn();
-			Player->InteractCharacterName = "? ? ?";
-			InteractMessage = "Restarting";
-			FirstTouch +=1;
-		}
+		return Restart();
 	}
 	else
 	{
-		if(FirstTouch == 2)
+		if(T_Contact == 1)
 		{
-			InteractMessage = Introduce();
+			return GetKey();
 		}
-		else if(FirstTouch>2)
+		else if(T_Contact==2)
 		{
-			InteractMessage = Talk();
+			return WhetherGetKey();
 		}
 	}
 	return InteractMessage;
 }
 
-void ACarl::TurnOn()
+
+FString ACarl::Restart()
 {
-	IsTurn = true;
+	return ReadMessage(M_Restart,C_Restart,T_Contact);
 }
 
-FString ACarl::Introduce()
+FString ACarl::GetKey()
 {
-	FString InteractMessage = ReadMessage(M_GetKey,C_GetKey,2);
+	FString InteractMessage = ReadMessage(M_GetKey,C_GetKey,T_Contact);
 	Player->TargetUpdate = true;
 	return InteractMessage;
 }
 
-FString ACarl::Talk()
+FString ACarl::WhetherGetKey()
 {
 	FString InteractMessage;
 	if(!Player->GetKey)
 	{
-		 InteractMessage = ReadMessage(ConversationMessage,ConversationCharacter,3);
+		 return ReadMessage(M_NotGetKey,C_NotGetKey,T_Contact);
 	}
 	else
 	{
-		InteractMessage = ReadMessage(ConversationMessage1,ConversationCharacter1,4);
-		
+		return ReadMessage(M_HasGetKey,C_HasGetKey,T_Contact);
 	}
-	return InteractMessage;
 }
 
-FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,int Touch)
+FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,int Contact)
 {
 	FString InteractMessage;
-	if(ConversationTime<Message.Num())
+	if(Index<Message.Num())
 	{
-		Player->InteractCharacterName = Character[ConversationTime];
-		InteractMessage = Message[ConversationTime];
-		ConversationTime += 1;
-		if(ConversationTime == Message.Num())
+		Player->InteractCharacterName = Character[Index];
+		InteractMessage = Message[Index];
+		Index += 1;
+		if(Index == Message.Num())
 		{
-			ConversationTime = 0;
+			Index = 0;
 			Player->InteractingEnd = true;
-			if(Touch==2)
+			if(Contact==0)
 			{
-				Player->TaskText = "3. Find the Key card";
-				FirstTouch+=1;
-				SetActorLocation(FVector(-4419,1249,1114));
+				IsTurn = true;
+				T_Contact +=1;
 			}
-			else if(Touch==4)
+			else if(Contact==1)
 			{
-				Player->TargetUpdate=true;
-				Player->TaskText = "Thanks! All is finished. Feel free to visit.";
+				Player->TargetUpdate = true;
+				Player->TaskText = "3. Find the Key card";
+				T_Contact +=1;
+			}
+			else if(Contact==2)
+			{
+				if(Player->GetKey)
+				{
+					Player->TargetUpdate = true;
+					Player->TaskText = "4. Go to Power Supply Room";
+					T_Contact +=1;
+					SetActorLocation(InvisibleLocation);
+				}
 			}
 			
 		}

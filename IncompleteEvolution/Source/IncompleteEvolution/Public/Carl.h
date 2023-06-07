@@ -25,26 +25,12 @@ protected:
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MainBody;
-	
-	void TurnOn();
-	FString Introduce();
-	FString Talk();
 
-	FString ReadMessage(TArray<FString> Message,TArray<FString> Character,int Touch);
+	FString Restart();
+	TArray<FString> M_Restart={"What is it?","Restarting"};
+	TArray<FString> C_Restart={"Player","???"};
 
-	UPROPERTY(BlueprintReadWrite)
-	AIncompleteEvolutionCharacter* Player;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	int FirstTouch = 0;
-	bool IsTurn = false;
-	bool IsTalk = false;
-	
-	int ConversationTime;
-	UPROPERTY(EditAnywhere)
+	FString GetKey();
 	TArray<FString> M_GetKey={
 		"Hi,Ethan","Who are you","That's weird, but I amd Carl",
 		"I am sure that we know each other", "...","So my name is Ethan","Sure",
@@ -52,8 +38,6 @@ public:
 		"Access restriction!","It seems I don't have permission to access this","There is a charging port in Power Supply Room.","It can help me get the permission",
 		"But before going there, we need a key card","The card should be in Room 1","I will be waiting for you here","OK"
 	};
-
-	UPROPERTY(EditAnywhere)
 	TArray<FString> C_GetKey={
 		"? ? ?","Player","? ? ?",
 		"Carl","Player","Ethan","Carl",
@@ -62,13 +46,29 @@ public:
 		"Carl","Carl","Carl","Ethan"
 	};
 
-	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage = {"It seems you don't get the key card","It should be in Room 1"};
-	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationCharacter ={"Carl", "Carl"};
+	FString WhetherGetKey();
+	TArray<FString> M_NotGetKey = {"It seems you don't get the key card","It should be in Room 1"};
+	TArray<FString> C_NotGetKey ={"Carl", "Carl"};
+	
+	TArray<FString> M_HasGetKey = {"You got it!", "Now we need to go to Power Supply Room"};
+	TArray<FString> C_HasGetKey ={"Carl","Carl"};
+	
+
+	FString ReadMessage(TArray<FString> Message,
+		TArray<FString> Character,
+		int Contact);
 
 	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationMessage1 = {"You got it!"};
-	UPROPERTY(EditAnywhere)
-	TArray<FString> ConversationCharacter1 ={"Carl"};
+	FVector InvisibleLocation;
+	
+	UPROPERTY(BlueprintReadWrite)
+	AIncompleteEvolutionCharacter* Player;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	int T_Contact = 0;
+	bool IsTurn = false;
+	int Index;
 };
