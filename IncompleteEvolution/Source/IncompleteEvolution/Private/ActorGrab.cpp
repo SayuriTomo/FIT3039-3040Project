@@ -40,15 +40,13 @@ void AActorGrab::Tick(float DeltaTime)
 		if(IsFixing)
 		{
 			ActorMesh->SetSimulatePhysics(false);
+			ActorMesh->SetMaterial(0,FixMaterial);
 		}
 		else
 		{
 			ActorMesh->SetSimulatePhysics(true);
+			ActorMesh->SetMaterial(0,OriginalMaterial);
 		}
 	}
-
-	
-
-
 }
 

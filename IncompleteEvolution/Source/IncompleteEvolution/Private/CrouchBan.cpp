@@ -27,6 +27,16 @@ void ACrouchBan::BeginPlay()
 void ACrouchBan::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	TArray<AActor*>Actors;
+	TSubclassOf<AIncompleteEvolutionCharacter> Player;
+	GetOverlappingActors(Actors,Player);
+	for (AActor* Actor:Actors)
+	{
+		if(Cast<AIncompleteEvolutionCharacter>(Actor))
+		{
+			Cast<AIncompleteEvolutionCharacter>(Actor)->AllowStand=false;
+		}
+	}
 
 }
 
