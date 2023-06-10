@@ -30,6 +30,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UImage* DialogLine;
+
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* EndText;
 	
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* InteractHint;
