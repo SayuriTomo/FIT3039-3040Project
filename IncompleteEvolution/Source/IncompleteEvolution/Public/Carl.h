@@ -82,4 +82,18 @@ public:
 	bool IsTurn = false;
 	int Index;
 	FString Charging();
+
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Voice_GetKey;
+
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Voice_NotGetKey;
+
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Voice_HasGetKey;
+
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Voice_Charging;
+
+	
 };

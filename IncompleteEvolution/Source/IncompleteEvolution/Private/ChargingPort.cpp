@@ -9,12 +9,29 @@ AChargingPort::AChargingPort()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	MainBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Body"));
-	MainBody->SetupAttachment(RootComponent);
+
+	LowerMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Lower Mesh"));
+	LowerMesh->SetupAttachment(RootComponent);
+	
+	UpperMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Upper Mesh"));
+	UpperMesh->SetupAttachment(LowerMesh);
+	
+	CarlMesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Carl Mesh1"));
+	CarlMesh1->SetupAttachment(LowerMesh);
+
+	CarlMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Carl Mesh2"));
+	CarlMesh2->SetupAttachment(LowerMesh);
+	
 }
 
 FString AChargingPort::OnInteract()
 {
+	if(!IsActive)
+	{
+		CarlMesh1->SetVisibility(true);
+		CarlMesh2->SetVisibility(true);
+		IsActive = true;
+	}
 	return CarlActor->Charging();
 }
 
@@ -23,6 +40,9 @@ FString AChargingPort::OnInteract()
 void AChargingPort::BeginPlay()
 {
 	Super::BeginPlay();
+	CarlMesh1->SetVisibility(false);
+	CarlMesh2->SetVisibility(false);
+	
 	TArray<AActor*> ActorsToFind;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(),AActor::StaticClass(),ActorsToFind);
 	for (AActor* Actor: ActorsToFind)

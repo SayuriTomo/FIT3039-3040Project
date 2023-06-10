@@ -24,9 +24,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* MainBody;
+	UStaticMeshComponent* UpperMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* LowerMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* CarlMesh1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* CarlMesh2;
 
 	ACarl* CarlActor;
+	
+	bool IsActive = false;
 
 public:	
 	// Called every frame
