@@ -164,5 +164,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherCrouch = false;
+
+	bool IsEnd = false;
 };
 

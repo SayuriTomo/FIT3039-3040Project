@@ -11,6 +11,7 @@ void UPlayerWidget::NativeConstruct()
 	Super::NativeConstruct();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	InteractHint->SetText(FText::FromString("[F] Interact"));
+	DarkImage->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -20,6 +21,10 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	if(Player)
 	{
 		Interacting = Player->Interacting;
+		if(Player->IsEnd)
+		{
+			DarkImage->SetVisibility(ESlateVisibility::Visible);
+		}
 		if(Player->WhetherGrab)
 		{
 			OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);

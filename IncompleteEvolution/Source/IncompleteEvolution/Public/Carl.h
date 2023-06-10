@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
+#include "Engine/PostProcessVolume.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "Carl.generated.h"
 
@@ -56,13 +57,13 @@ protected:
 	TArray<FString> M_Charging = {
 		"Reading---","Complete","OK, Ethan","I have got access to this level",
 		"Let's move to the next level","And I will explain what happened here",
-		"BTW, do you remember Emily", "Emily?","AHHHH","Breathing normal",
-		"Who is there","No.1002 Record","Continue the injection"};
+		"By the way, do you remember Emily", "Emily?","AAAAAA","Experiment No.1001 start",
+		"Who's there","Start recording","Ethan, can you hear me?","Start the injection"};
 	TArray<FString> C_Charging ={
 		"Carl", "Carl", "Carl", "Carl",
 		"Carl", "Carl",
 		"Carl","Ethan","Ethan","???",
-		"Ethan","???","???"};
+		"Ethan","???","Carl","???"};
 
 	FString ReadMessage(TArray<FString> Message,
 		TArray<FString> Character,
@@ -71,18 +72,19 @@ protected:
 	UPROPERTY(EditAnywhere)
 	FVector InvisibleLocation;
 	
-	UPROPERTY(BlueprintReadWrite)
-	AIncompleteEvolutionCharacter* Player;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintReadWrite)
+	AIncompleteEvolutionCharacter* Player;
+	
 	int T_Contact = 0;
 	bool IsTurn = false;
 	int Index;
 	FString Charging();
-
+	void MovePPVolume();
+	
 	UPROPERTY(EditAnywhere)
 	TArray<USoundBase*> Voice_GetKey;
 
@@ -95,5 +97,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<USoundBase*> Voice_Charging;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	APostProcessVolume* PP_WarpVolume;
 	
 };

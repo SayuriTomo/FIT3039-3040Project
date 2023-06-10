@@ -23,6 +23,9 @@ protected:
 	class UImage* OriginalCrossHair;
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UImage* DarkImage;
+
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UImage* AimingCrossHair;
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)

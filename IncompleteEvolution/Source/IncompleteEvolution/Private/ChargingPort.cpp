@@ -32,6 +32,15 @@ FString AChargingPort::OnInteract()
 		CarlMesh2->SetVisibility(true);
 		IsActive = true;
 	}
+	Time += 1;
+	if(Time == 9)
+	{
+		CarlActor->MovePPVolume();
+	}
+	if(Time == 14)
+	{
+		CarlActor->Player->IsEnd = true;
+	}
 	return CarlActor->Charging();
 }
 

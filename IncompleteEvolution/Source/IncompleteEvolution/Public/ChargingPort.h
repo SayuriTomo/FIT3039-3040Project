@@ -39,6 +39,8 @@ protected:
 	
 	bool IsActive = false;
 
+	float Time = 0;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -3,6 +3,8 @@
 
 #include "Carl.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ACarl::ACarl()
@@ -104,20 +106,33 @@ void ACarl::BeginPlay()
 {
 	Super::BeginPlay();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	TArray<AActor*> ActorsToFind;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),AActor::StaticClass(),ActorsToFind);
+	for (AActor* Actor: ActorsToFind)
+	{
+		if(Actor->GetName()=="PostProcessVolume_Warp")
+		{
+			PP_WarpVolume =Cast<APostProcessVolume>(Actor);
+			UE_LOG(LogTemp,Warning,TEXT("Find Warp"));
+		}
+	}
+}
+
+void ACarl::MovePPVolume()
+{
+	PP_WarpVolume->SetActorLocation(Player->GetActorLocation());
 }
 
 // Called every frame
 void ACarl::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 FString ACarl::Charging()
 {
 	FString InteractMessage;
 	return ReadMessage(M_Charging,C_Charging,T_Contact);
-	
 }
 
 
