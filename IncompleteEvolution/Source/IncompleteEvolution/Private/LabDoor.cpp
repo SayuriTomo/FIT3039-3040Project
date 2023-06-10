@@ -22,7 +22,7 @@ FString ALabDoor::OnInteract()
 	AIncompleteEvolutionCharacter* Player =
 		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	
-	if(IsLocked&&!Player->GetKey)
+	if(IsLocked&&!Player->GetKey&&KeyOpen)
 	{
 		Player -> InteractCharacterName = "Player";
 		InteractMessage = "It seems to be locked";

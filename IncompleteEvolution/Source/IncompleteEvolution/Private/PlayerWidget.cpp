@@ -24,6 +24,9 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 		if(Player->IsEnd)
 		{
 			DarkImage->SetVisibility(ESlateVisibility::Visible);
+			TaskMessage->SetVisibility(ESlateVisibility::Hidden);
+			TaskBar->SetVisibility(ESlateVisibility::Hidden);
+			DialogLine->SetVisibility(ESlateVisibility::Hidden);
 		}
 		if(Player->WhetherGrab)
 		{

@@ -41,4 +41,7 @@ public:
 	UFUNCTION()
 	void OpenDoor();
 
+	UPROPERTY(EditAnywhere)
+	bool KeyOpen = true;
+
 };

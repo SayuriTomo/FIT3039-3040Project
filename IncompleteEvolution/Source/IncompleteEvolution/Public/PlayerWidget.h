@@ -44,6 +44,9 @@ protected:
 	class UTextBlock* TaskMessage;
 
 	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
+	class UTextBlock* TaskBar;
+	
+	UPROPERTY(meta = (BindWidget),BlueprintReadWrite)
 	class UTextBlock* ConversationHint;
 	
 	UPROPERTY(BlueprintReadWrite)
