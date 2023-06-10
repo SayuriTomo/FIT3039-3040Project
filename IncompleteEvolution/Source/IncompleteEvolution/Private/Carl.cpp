@@ -39,11 +39,13 @@ FString ACarl::OnInteract()
 
 FString ACarl::Restart()
 {
+	PlaySound(Voice_Restart);
 	return ReadMessage(M_Restart,C_Restart,T_Contact);
 }
 
 FString ACarl::GetKey()
 {
+	PlaySound(Voice_GetKey);
 	FString InteractMessage = ReadMessage(M_GetKey,C_GetKey,T_Contact);
 	Player->TargetUpdate = true;
 	return InteractMessage;
@@ -54,10 +56,12 @@ FString ACarl::WhetherGetKey()
 	FString InteractMessage;
 	if(!Player->GetKey)
 	{
+		PlaySound(Voice_NotGetKey);
 		 return ReadMessage(M_NotGetKey,C_NotGetKey,T_Contact);
 	}
 	else
 	{
+		PlaySound(Voice_HasGetKey);
 		return ReadMessage(M_HasGetKey,C_HasGetKey,T_Contact);
 	}
 }
@@ -99,6 +103,14 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 		}
 	}
 	return InteractMessage;
+}
+
+void ACarl::PlaySound(TArray<USoundBase*> Voice)
+{
+	if(Index<Voice.Num())
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, Voice[Index], GetActorLocation());
+	}
 }
 
 // Called when the game starts or when spawned

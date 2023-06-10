@@ -69,6 +69,7 @@ protected:
 		TArray<FString> Character,
 		int Contact);
 
+	void PlaySound(TArray<USoundBase*> Voice);
 	UPROPERTY(EditAnywhere)
 	FVector InvisibleLocation;
 	
@@ -84,6 +85,9 @@ public:
 	int Index;
 	FString Charging();
 	void MovePPVolume();
+
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Voice_Restart;
 	
 	UPROPERTY(EditAnywhere)
 	TArray<USoundBase*> Voice_GetKey;

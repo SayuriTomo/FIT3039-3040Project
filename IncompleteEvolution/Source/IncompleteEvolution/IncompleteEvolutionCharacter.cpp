@@ -124,7 +124,7 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 		{
 			const FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
 			FVector ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-			FVector End = Start + ForwardVector * 300.f;
+			FVector End = Start + ForwardVector * 200.f;
 			GrabHandle->SetTargetLocation(End);
 		}
 	}

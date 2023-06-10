@@ -22,7 +22,7 @@ FString ALabDoor::OnInteract()
 	AIncompleteEvolutionCharacter* Player =
 		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	
-	if(IsLocked&&!Player->GetKey&&KeyOpen)
+	if(IsLocked&&!Player->GetKey)
 	{
 		Player -> InteractCharacterName = "Player";
 		InteractMessage = "It seems to be locked";
@@ -31,10 +31,20 @@ FString ALabDoor::OnInteract()
 	}
 	else
 	{
-		OpenDoor();
-		Player -> InteractCharacterName = "Door";
-		InteractMessage = "Opening";
-		Player->InteractingEnd = true;
+		if(KeyOpen)
+		{
+			OpenDoor();
+			Player -> InteractCharacterName = "Door";
+			InteractMessage = "Opening";
+			Player->InteractingEnd = true;
+		}
+		else
+		{
+			Player -> InteractCharacterName = "Player";
+			InteractMessage = "It seems to be locked";
+			Player->InteractingEnd = true;
+			return InteractMessage;
+		}
 		return InteractMessage;
 	}
 }
@@ -60,8 +70,8 @@ void ALabDoor::Tick(float DeltaTime)
 		{
 			FVector LeftLocation = LeftDoor->GetComponentLocation();
 			FVector RightLocation = RightDoor->GetComponentLocation();\
-			LeftDoor->SetWorldLocation(FVector(LeftLocation.X-25*DeltaTime,LeftLocation.Y,LeftLocation.Z));
-			RightDoor->SetWorldLocation(FVector(RightLocation.X+25*DeltaTime,RightLocation.Y,RightLocation.Z));
+			LeftDoor->SetWorldLocation(FVector(LeftLocation.X-75*DeltaTime,LeftLocation.Y,LeftLocation.Z));
+			RightDoor->SetWorldLocation(FVector(RightLocation.X+75*DeltaTime,RightLocation.Y,RightLocation.Z));
 			CurrentTime+=DeltaTime;
 		}
 		else
