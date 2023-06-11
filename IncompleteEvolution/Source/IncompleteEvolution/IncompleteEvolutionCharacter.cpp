@@ -192,15 +192,18 @@ void AIncompleteEvolutionCharacter::Fix()
 
 void AIncompleteEvolutionCharacter::ProcessFixHit(FHitResult& HitOut)
 {
-	if(Cast<AActorGrab>(HitOut.GetActor()))
+	if(WhetherGrab)
 	{
-		if(Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
+		if(Cast<AActorGrab>(HitOut.GetActor()))
 		{
-			Cast<AActorGrab>(HitOut.GetActor())->IsFixing = false;
-		}
-		else
-		{
-			Cast<AActorGrab>(HitOut.GetActor())->IsFixing = true;
+			if(Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
+			{
+				Cast<AActorGrab>(HitOut.GetActor())->IsFixing = false;
+			}
+			else
+			{
+				Cast<AActorGrab>(HitOut.GetActor())->IsFixing = true;
+			}
 		}
 	}
 }
