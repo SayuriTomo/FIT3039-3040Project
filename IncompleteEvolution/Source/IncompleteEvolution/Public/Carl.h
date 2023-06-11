@@ -56,8 +56,8 @@ protected:
 	
 	TArray<FString> M_Charging = {
 		"Reading---","Complete","OK, Ethan","I have got access to this level",
-		"Let's move to the next level","And I will explain what happened here",
-		"By the way, do you remember Emily", "Emily?","AAAAAA","Experiment No.1001 start",
+		"Let's move on","And I will explain what happened here",
+		"By the way, do you remember Emily", "Emily? Who?","Ouch!","Experiment No.1001 start",
 		"Who's there","Start recording","Ethan, can you hear me?","Start the injection"};
 	TArray<FString> C_Charging ={
 		"Carl", "Carl", "Carl", "Carl",

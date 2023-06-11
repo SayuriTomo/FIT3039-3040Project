@@ -167,5 +167,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool IsEnd = false;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* Voice_Start;
 };
 

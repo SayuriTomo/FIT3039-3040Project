@@ -36,7 +36,9 @@ FString AChargingPort::OnInteract()
 	if(Time == 9)
 	{
 		CarlActor->MovePPVolume();
+		UGameplayStatics::PlaySoundAtLocation(this,Noise, GetActorLocation());
 	}
+	
 	if(Time == 14)
 	{
 		CarlActor->Player->IsEnd = true;

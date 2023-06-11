@@ -44,4 +44,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool KeyOpen = true;
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* Voice_DoorOpen;
+
 };

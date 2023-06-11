@@ -35,7 +35,16 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FString InteractMessage;
+	
+	UPROPERTY(EditAnywhere)
+	FString CharacterName;
 
 	bool TimeLimit=false;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* Voice_Trigger;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* Voice_Achieve;
 };
 

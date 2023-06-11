@@ -3,6 +3,7 @@
 
 #include "LabDoor.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ALabDoor::ALabDoor()
@@ -52,6 +53,7 @@ FString ALabDoor::OnInteract()
 void ALabDoor::OpenDoor()
 {
 	Opening = true;
+	UGameplayStatics::PlaySoundAtLocation(this, Voice_DoorOpen, GetActorLocation());
 }
 
 // Called when the game starts or when spawned

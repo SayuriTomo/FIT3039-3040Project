@@ -144,6 +144,7 @@ void ACarl::Tick(float DeltaTime)
 FString ACarl::Charging()
 {
 	FString InteractMessage;
+	PlaySound(Voice_Charging);
 	return ReadMessage(M_Charging,C_Charging,T_Contact);
 }
 

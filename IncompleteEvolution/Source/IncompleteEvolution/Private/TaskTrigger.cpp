@@ -3,6 +3,7 @@
 
 #include "TaskTrigger.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATaskTrigger::ATaskTrigger()
@@ -34,10 +35,13 @@ void ATaskTrigger::TriggerOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	{
 		if(OtherActor && OtherActor != this && Cast<AIncompleteEvolutionCharacter>(OtherActor))
 		{
+			UGameplayStatics::PlaySoundAtLocation(this, Voice_Achieve, GetActorLocation());
 			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(OtherActor);
 			Player->Interacting =true;
 			Player->TargetUpdate=true;
 			Player->TaskText = TaskMessage;
+			Player->InteractCharacterName = CharacterName;
+			UGameplayStatics::PlaySoundAtLocation(this, Voice_Trigger, Player->GetActorLocation());
 			Player->InteractText = InteractMessage;
 			Player->InteractingEnd = true;
 			TimeLimit = true;

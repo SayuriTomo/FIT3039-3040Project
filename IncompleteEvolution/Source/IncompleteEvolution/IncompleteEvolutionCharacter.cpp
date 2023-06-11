@@ -59,7 +59,8 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 
 	Interacting = true;
 	InteractCharacterName = "Player";
-	InteractText = "Where is here";
+	InteractText = "Ouch! Where is here?";
+	UGameplayStatics::PlaySoundAtLocation(this, Voice_Start, GetActorLocation());
 	InteractingEnd= true;
 	TargetUpdate = true;
 	TaskText = "1. Leave Room";
@@ -124,7 +125,7 @@ void AIncompleteEvolutionCharacter::Tick(float DeltaSeconds)
 		{
 			const FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
 			FVector ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
-			FVector End = Start + ForwardVector * 200.f;
+			FVector End = Start + ForwardVector * 250.f;
 			GrabHandle->SetTargetLocation(End);
 		}
 	}
@@ -178,10 +179,6 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 		InteractText = ActorCheck->OnInteract();
 		Interacting = true;
 		InteractActor = HitOut.GetActor();
-		/*if(Music)
-		{
-			UGameplayStatics::PlaySoundAtLocation(this, Music, GetOwner()->GetActorLocation());
-		}*/
 	}
 }
 
@@ -192,7 +189,7 @@ void AIncompleteEvolutionCharacter::Fix()
 
 void AIncompleteEvolutionCharacter::ProcessFixHit(FHitResult& HitOut)
 {
-	if(WhetherGrab)
+	if(!WhetherGrab)
 	{
 		if(Cast<AActorGrab>(HitOut.GetActor()))
 		{
@@ -279,7 +276,7 @@ void AIncompleteEvolutionCharacter::SingleGrab()
 
 void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 {
-	if(Cast<AActorGrab>(HitOut.GetActor()))
+	if(Cast<AActorGrab>(HitOut.GetActor())&&Cast<AActorGrab>(HitOut.GetActor())->CanBeSingleGrab)
 	{
 		if(!Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
 		{
