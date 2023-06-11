@@ -41,7 +41,6 @@ void ATaskTrigger::TriggerOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 			Player->TargetUpdate=true;
 			Player->TaskText = TaskMessage;
 			Player->InteractCharacterName = CharacterName;
-			UGameplayStatics::PlaySoundAtLocation(this, Voice_Trigger, Player->GetActorLocation());
 			Player->InteractText = InteractMessage;
 			Player->InteractingEnd = true;
 			TimeLimit = true;

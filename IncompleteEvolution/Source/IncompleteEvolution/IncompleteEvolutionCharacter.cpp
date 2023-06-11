@@ -60,7 +60,6 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 	Interacting = true;
 	InteractCharacterName = "Player";
 	InteractText = "Ouch! Where is here?";
-	UGameplayStatics::PlaySoundAtLocation(this, Voice_Start, GetActorLocation());
 	InteractingEnd= true;
 	TargetUpdate = true;
 	TaskText = "1. Leave Room";

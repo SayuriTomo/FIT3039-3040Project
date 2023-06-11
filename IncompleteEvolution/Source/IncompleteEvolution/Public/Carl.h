@@ -33,7 +33,7 @@ protected:
 
 	FString GetKey();
 	TArray<FString> M_GetKey={
-		"Hi,Ethan","Who are you","That's weird, but I amd Carl",
+		"Hi,Ethan","Who are you","That's weird, but I am Carl",
 		"I am sure that we know each other", "...","So my name is Ethan","Sure",
 		"Sorry, I don't remember anything","Oh, it must be the side effect","Side effect? What happened on me?",
 		"Access restriction!","It seems I don't have permission to access this","There is a charging port in Power Supply Room.","It can help me get the permission",
