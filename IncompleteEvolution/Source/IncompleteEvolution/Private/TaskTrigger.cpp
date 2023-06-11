@@ -11,8 +11,7 @@ ATaskTrigger::ATaskTrigger()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	TriggerBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Trigger Box Component"));
-	TriggerBox->SetupAttachment(RootComponent);
-
+	SetRootComponent(TriggerBox);
 	TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &ATaskTrigger::TriggerOverlap);
 }
 
