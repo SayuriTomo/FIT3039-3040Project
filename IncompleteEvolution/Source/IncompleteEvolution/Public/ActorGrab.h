@@ -33,7 +33,4 @@ public:
 
 	bool IsFixing=false;
 
-	UPROPERTY(EditAnywhere)
-	bool CanBeSingleGrab = true;
-
 };

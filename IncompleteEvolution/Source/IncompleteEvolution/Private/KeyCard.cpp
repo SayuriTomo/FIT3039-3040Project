@@ -18,7 +18,7 @@ AKeyCard::AKeyCard()
 FString AKeyCard::OnInteract()
 {
 	FString InteractMessage;
-	InteractMessage = "Got it! It should be the key card! Return to Carl!";
+	InteractMessage = "Got it! It should be the key card! Now return to Carl!";
 	AIncompleteEvolutionCharacter* Player =
 		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	Player->InteractCharacterName = "Ethan";

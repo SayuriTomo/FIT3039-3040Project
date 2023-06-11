@@ -33,10 +33,12 @@ void AActorGrab::Tick(float DeltaTime)
 	if(IsGrabbing)
 	{
 		ActorMesh->SetCastShadow(false);
+		ActorMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn,ECollisionResponse::ECR_Ignore);
 	}
 	else
 	{
 		ActorMesh->SetCastShadow(true);
+		ActorMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn,ECollisionResponse::ECR_Block);
 		if(IsFixing)
 		{
 			ActorMesh->SetSimulatePhysics(false);

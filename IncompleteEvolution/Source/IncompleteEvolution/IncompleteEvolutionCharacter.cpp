@@ -266,6 +266,7 @@ void AIncompleteEvolutionCharacter::SingleGrab()
 		if(SingleGrabActive)
 		{
 			GrabHandle->ReleaseComponent();
+			HitActor->IsGrabbing = false;
 			HitActor = nullptr;
 			WhetherGrab = false;
 			SingleGrabActive =false;
@@ -275,7 +276,7 @@ void AIncompleteEvolutionCharacter::SingleGrab()
 
 void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 {
-	if(Cast<AActorGrab>(HitOut.GetActor())&&Cast<AActorGrab>(HitOut.GetActor())->CanBeSingleGrab)
+	if(Cast<AActorGrab>(HitOut.GetActor()))
 	{
 		if(!Cast<AActorGrab>(HitOut.GetActor())->IsFixing)
 		{
@@ -283,6 +284,7 @@ void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 				HitOut.GetActor()->GetActorLocation(),FRotator(0,0,0));
 			WhetherGrab = true;
 			HitActor = Cast<AActorGrab>(HitOut.GetActor());
+			HitActor->IsGrabbing = true;
 			SingleGrabActive = true;
 		}
 	}
