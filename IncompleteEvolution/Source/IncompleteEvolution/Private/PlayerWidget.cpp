@@ -62,22 +62,25 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 		if(Player->Interacting)
 		{
-			InteractMessage->SetText(FText::FromString(Player->InteractText));
-			InteractMessage->SetVisibility(ESlateVisibility::Visible);
+			if(Player->InteractText!="")
+			{
+				InteractMessage->SetText(FText::FromString(Player->InteractText));
+				InteractMessage->SetVisibility(ESlateVisibility::Visible);
 
-			InteractCharacter->SetText(FText::FromString(Player->InteractCharacterName));
-			InteractCharacter->SetVisibility(ESlateVisibility::Visible);
+				InteractCharacter->SetText(FText::FromString(Player->InteractCharacterName));
+				InteractCharacter->SetVisibility(ESlateVisibility::Visible);
 
-			DialogLine->SetVisibility(ESlateVisibility::Visible);
+				DialogLine->SetVisibility(ESlateVisibility::Visible);
 
-			ConversationHint->SetVisibility(ESlateVisibility::Visible);
+				ConversationHint->SetVisibility(ESlateVisibility::Visible);
+			}
 			
 		}
 		else
 		{
 			Player->Interacting = false;
 			Player->InteractText = nullptr;
-			
+			Player->InteractCharacterName = nullptr;
 			InteractMessage->SetVisibility(ESlateVisibility::Hidden);
 			
 			DialogLine->SetVisibility(ESlateVisibility::Hidden);

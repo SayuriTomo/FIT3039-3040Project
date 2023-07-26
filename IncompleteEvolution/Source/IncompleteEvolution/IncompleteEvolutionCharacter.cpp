@@ -175,8 +175,8 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 {
 	if(IInteractInterface* ActorCheck = Cast<IInteractInterface>(HitOut.GetActor()))
 	{
-		InteractText = ActorCheck->OnInteract();
 		Interacting = true;
+		InteractText = ActorCheck->OnInteract();
 		InteractActor = HitOut.GetActor();
 	}
 }
