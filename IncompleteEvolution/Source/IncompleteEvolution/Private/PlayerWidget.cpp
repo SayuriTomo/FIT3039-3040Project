@@ -29,6 +29,7 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			TaskMessage->SetVisibility(ESlateVisibility::Hidden);
 			TaskBar->SetVisibility(ESlateVisibility::Hidden);
 			DialogLine->SetVisibility(ESlateVisibility::Hidden);
+			DialogBlock->SetVisibility(ESlateVisibility::Hidden);
 			OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
 			AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
 		}
@@ -71,7 +72,8 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 				InteractCharacter->SetVisibility(ESlateVisibility::Visible);
 
 				DialogLine->SetVisibility(ESlateVisibility::Visible);
-
+				DialogBlock->SetVisibility(ESlateVisibility::Visible);
+				
 				ConversationHint->SetVisibility(ESlateVisibility::Visible);
 			}
 			
@@ -84,6 +86,7 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			InteractMessage->SetVisibility(ESlateVisibility::Hidden);
 			
 			DialogLine->SetVisibility(ESlateVisibility::Hidden);
+			DialogBlock->SetVisibility(ESlateVisibility::Hidden);
 			
 			InteractCharacter->SetVisibility(ESlateVisibility::Hidden);
 			
