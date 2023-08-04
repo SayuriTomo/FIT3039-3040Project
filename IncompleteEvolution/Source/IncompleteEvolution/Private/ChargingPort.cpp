@@ -33,6 +33,7 @@ FString AChargingPort::OnInteract()
 		IsActive = true;
 	}
 	Time += 1;
+	
 	if(Time == 9)
 	{
 		CarlActor->MovePPVolume();
@@ -41,7 +42,7 @@ FString AChargingPort::OnInteract()
 	
 	if(Time == 14)
 	{
-		CarlActor->Player->IsEnd = true;
+		CarlActor->Player->bIsEnd = true;
 	}
 	return CarlActor->Charging();
 }

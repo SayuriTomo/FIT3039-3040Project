@@ -22,7 +22,24 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	if(Player)
 	{
 		Interacting = Player->Interacting;
-		if(Player->IsEnd)
+		if(Player->bIsStart)
+		{
+			DarkImage->SetVisibility(ESlateVisibility::Visible);
+			OriginalCrossHair->SetVisibility(ESlateVisibility::Hidden);
+			AimingCrossHair->SetVisibility(ESlateVisibility::Hidden);
+			TaskMessage->SetVisibility(ESlateVisibility::Hidden);
+			TaskBar->SetVisibility(ESlateVisibility::Hidden);
+		}
+		else
+		{
+			DarkImage->SetVisibility(ESlateVisibility::Hidden);
+			OriginalCrossHair->SetVisibility(ESlateVisibility::Visible);
+			AimingCrossHair->SetVisibility(ESlateVisibility::Visible);
+			TaskMessage->SetVisibility(ESlateVisibility::Visible);
+			TaskBar->SetVisibility(ESlateVisibility::Visible);
+		}
+		
+		if(Player->bIsEnd)
 		{
 			DarkImage->SetVisibility(ESlateVisibility::Visible);
 			EndText->SetVisibility(ESlateVisibility::Visible);

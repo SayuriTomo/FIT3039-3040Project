@@ -166,7 +166,15 @@ public:
 	bool WhetherCrouch = false;
 
 	UPROPERTY(BlueprintReadWrite)
-	bool IsEnd = false;
-	
+	bool bIsEnd = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsStart = true;
+	void ReadPrologue();
+	int Index=0;
+	UPROPERTY(EditAnywhere)
+	TArray<FString> M_Prologue = {"wuwuwuwuwuwuwu!", "wuwuwuwuwuwuwu"};
+	UPROPERTY(EditAnywhere)
+	TArray<FString> C_Prologue ={"Zi chao Lu","Zi chao Lu"};
 };
 

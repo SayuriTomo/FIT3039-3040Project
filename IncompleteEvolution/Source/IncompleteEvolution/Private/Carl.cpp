@@ -78,6 +78,36 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 		{
 			Index = 0;
 			Player->InteractingEnd = true;
+			switch (Contact)
+			{
+				case 0:
+					{
+						IsTurn = true;
+						T_Contact +=1;
+						break;
+					}
+				case 1:
+					{
+						Player->TargetUpdate = true;
+						Player->TaskText = "3. Find the Key card";
+						T_Contact +=1;
+						break;
+					}
+				case 2:
+					{
+						if(Player->GetKey)
+						{
+							Player->TargetUpdate = true;
+							Player->TaskText = "4. Go to Power Supply Room";
+							T_Contact +=1;
+							SetActorLocation(InvisibleLocation);
+						}
+						break;
+					}
+				default:{}
+			}
+			
+			/*
 			if(Contact==0)
 			{
 				IsTurn = true;
@@ -98,7 +128,7 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 					T_Contact +=1;
 					SetActorLocation(InvisibleLocation);
 				}
-			}
+			}*/
 			
 		}
 	}

@@ -11,6 +11,7 @@
 #include "Components/ArrowComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Windows/LiveCoding/Private/External/LC_HeartBeat.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -58,11 +59,9 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 	}
 
 	Interacting = true;
-	InteractCharacterName = "Player";
-	InteractText = "Ouch! Where is here?";
-	InteractingEnd= true;
-	TargetUpdate = true;
-	TaskText = "1. Leave Room";
+	ReadPrologue();
+	
+
 
 }
 
@@ -163,9 +162,16 @@ void AIncompleteEvolutionCharacter::Interact()
 		}
 		else
 		{
-			if(InteractActor)
+			if(bIsStart)
 			{
-				InteractText = Cast<IInteractInterface>(InteractActor)->OnInteract();
+				ReadPrologue();
+			}
+			else
+			{
+				if(InteractActor)
+				{
+					InteractText = Cast<IInteractInterface>(InteractActor)->OnInteract();
+				}
 			}
 		}
 	}
@@ -354,6 +360,20 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	FVector ForwardVector;
 	FVector End;
 	
+	switch (Number) {
+		case 2:
+			{
+				ForwardVector = UnitDirection * 5000.f;End = Start + ForwardVector;
+				break;
+			}
+		default:
+			{
+				ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
+				End = Start + ForwardVector * 1000.f;
+				break;
+			}
+	}
+	/*
 	if(Number == 1||Number == 3||Number == 4||Number == 5||Number==6)
 	{
 		ForwardVector = GetFirstPersonCameraComponent()->GetForwardVector();
@@ -364,6 +384,7 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 		ForwardVector = UnitDirection * 5000.f;
 		End = Start + ForwardVector;
 	}
+	*/
 	
 	FHitResult HitData(ForceInit);
 	
@@ -380,6 +401,39 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 	{
 		if (HitData.GetActor())
 		{
+			switch (Number)
+			{
+				case 1:
+					{
+						ProcessGrabHit(HitData);
+						break;
+					}
+				case 2:
+					{
+						ProcessScaleHit(HitData);
+						break;
+					}
+				case 3:
+					{
+						ProcessAimHit(HitData);
+						break;
+					}
+				case 4:
+					{
+						ProcessInteractHit(HitData);
+						break;
+					}
+				case 5:{ProcessSingleGrabHit(HitData);
+						break;}
+				case 6:
+					{
+						ProcessFixHit(HitData);
+						break;
+					}
+				default:{}
+			}
+			
+			/*
 			if(Number == 1)
 			{
 				ProcessGrabHit(HitData);
@@ -403,7 +457,8 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 			else if(Number ==6)
 			{
 				ProcessFixHit(HitData);
-			}
+			}*/
+			
 		} else
 		{
 			// The trace did not return an Actor
@@ -468,6 +523,24 @@ void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 	}
 	
 	
+}
+
+void AIncompleteEvolutionCharacter::ReadPrologue()
+{
+	if(Index<M_Prologue.Num())
+	{
+		InteractCharacterName = C_Prologue[Index];
+		InteractText = M_Prologue[Index];
+		Index += 1;
+		if(Index == M_Prologue.Num())
+		{
+			Index = 0;
+			bIsStart = false;
+			InteractingEnd = true;
+			TargetUpdate = true;
+			TaskText = "1. Leave Room";
+		}
+	}
 }
 
 void AIncompleteEvolutionCharacter::ProcessScaleHit(FHitResult& HitOut)
