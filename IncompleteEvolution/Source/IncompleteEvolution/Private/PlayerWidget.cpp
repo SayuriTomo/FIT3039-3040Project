@@ -84,7 +84,7 @@ void UPlayerWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 			{
 				InteractMessage->SetText(FText::FromString(Player->InteractText));
 				InteractMessage->SetVisibility(ESlateVisibility::Visible);
-
+				
 				InteractCharacter->SetText(FText::FromString(Player->InteractCharacterName));
 				InteractCharacter->SetVisibility(ESlateVisibility::Visible);
 

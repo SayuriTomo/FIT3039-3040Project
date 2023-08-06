@@ -43,13 +43,14 @@ public:
 		"Implant ability is",
 		"Resize",
 		"Ability use method prediction is",
-		"Use the left mouse button to click the specific object",
+		"Use the left mouse button",
+		"click the specific object",
 		"and drag the field of view",
 		"Resize?",
 		"What does it mean?"};
 	UPROPERTY(EditAnywhere)
 	TArray<FString> C_AbilityLearn ={
-		"Report","Report","Report","Report","Report","Report","Report","Report",
+		"Report","Report","Report","Report","Report","Report","Report","Report","Report",
 		"Player","Player"};
 
 	int Index = 0;
