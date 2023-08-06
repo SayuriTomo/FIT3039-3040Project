@@ -168,7 +168,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsEnd = false;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bIsStart = true;
 	void ReadPrologue();
 	int Index=0;
