@@ -172,9 +172,21 @@ public:
 	bool bIsStart = true;
 	void ReadPrologue();
 	int Index=0;
+	
 	UPROPERTY(EditAnywhere)
-	TArray<FString> M_Prologue = {"wuwuwuwuwuwuwu!", "wuwuwuwuwuwuwu"};
+	TArray<FString> M_Prologue = {"Hello Everyone!",
+		"Today is exactly the 10-year anniversary of the incident",
+		"Yes, Compound 6 incident",
+		"We should not forget the sorrow it brought to our families",
+		"And this drug is still being sold in the black market",
+		"Therefore, if you come into contact with some unnamed drugs",
+		"Call the police quickly","Where is here?"};
+	
 	UPROPERTY(EditAnywhere)
-	TArray<FString> C_Prologue ={"Zi chao Lu","Zi chao Lu"};
+	TArray<FString> C_Prologue ={"Media","Media","Media","Media","Media","Media","Media","Player"};
+
+	UPROPERTY(EditAnywhere)
+	bool bIsGrabActive = false;
+
 };
 

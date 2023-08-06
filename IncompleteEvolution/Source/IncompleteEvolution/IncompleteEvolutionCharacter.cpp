@@ -58,8 +58,11 @@ void AIncompleteEvolutionCharacter::BeginPlay()
 		}
 	}
 
-	Interacting = true;
-	ReadPrologue();
+	if(bIsStart)
+	{
+		Interacting = true;
+		ReadPrologue();
+	}
 	
 
 
@@ -253,11 +256,14 @@ void AIncompleteEvolutionCharacter::Look(const FInputActionValue& Value)
 	// input is a Vector2D
 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
+	if(!bIsStart)
 	{
-		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X/2);
-		AddControllerPitchInput(LookAxisVector.Y/2);
+		if (Controller != nullptr)
+		{
+			// add yaw and pitch input to controller
+			AddControllerYawInput(LookAxisVector.X/2);
+			AddControllerPitchInput(LookAxisVector.Y/2);
+		}
 	}
 }
 
@@ -298,25 +304,28 @@ void AIncompleteEvolutionCharacter::ProcessSingleGrabHit(FHitResult& HitOut)
 
 void AIncompleteEvolutionCharacter::Grab()
 {
-	if(!WhetherGrab&&!SingleGrabActive)
+	if(bIsGrabActive)
 	{
-		CallMyTrace(1);
-	}
-	else
-	{
-		if(GrabActive)
+		if(!WhetherGrab&&!SingleGrabActive)
 		{
-			HitComponentREF->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-			HitComponentREF->SetSimulatePhysics(true);
-			HitComponentREF->SetPhysicsLinearVelocity(FVector(0,0,0));
-			HitComponentREF->SetPhysicsAngularVelocityInDegrees(FVector(0,0,0));
-			WhetherGrab = false;
-			WhetherScale = false;
-			ClosestDistance = 50000;
-			HitActor->SetActorEnableCollision(true);
-			HitActor->IsGrabbing = false;
-			HitActor = nullptr;
-			GrabActive = false;
+			CallMyTrace(1);
+		}
+		else
+		{
+			if(GrabActive)
+			{
+				HitComponentREF->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+				HitComponentREF->SetSimulatePhysics(true);
+				HitComponentREF->SetPhysicsLinearVelocity(FVector(0,0,0));
+				HitComponentREF->SetPhysicsAngularVelocityInDegrees(FVector(0,0,0));
+				WhetherGrab = false;
+				WhetherScale = false;
+				ClosestDistance = 50000;
+				HitActor->SetActorEnableCollision(true);
+				HitActor->IsGrabbing = false;
+				HitActor = nullptr;
+				GrabActive = false;
+			}
 		}
 	}
 }
