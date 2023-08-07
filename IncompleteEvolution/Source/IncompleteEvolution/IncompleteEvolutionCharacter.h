@@ -166,7 +166,28 @@ public:
 	bool WhetherCrouch = false;
 
 	UPROPERTY(BlueprintReadWrite)
-	bool IsEnd = false;
+	bool bIsEnd = false;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool bIsStart = true;
+	void ReadPrologue();
+	int Index=0;
 	
+	UPROPERTY(EditAnywhere)
+	TArray<FString> M_Prologue = {"Hello Everyone!",
+		"Today is exactly the 10-year anniversary",
+		"of Compound 6 incident",
+		"We should not forget its sorrow",
+		"And this drug is still sold in the black market",
+		"Therefore, if you contact with",
+		"unnamed medicine",
+		"Call the police quickly","Where is here?"};
+	
+	UPROPERTY(EditAnywhere)
+	TArray<FString> C_Prologue ={"Media","Media","Media","Media","Media","Media","Media","Media","Player"};
+
+	UPROPERTY(EditAnywhere)
+	bool bIsGrabActive = false;
+
 };
 
