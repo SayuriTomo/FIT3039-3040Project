@@ -5,51 +5,40 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
-#include "LabDoor.generated.h"
+#include "Components/SpotLightComponent.h"
+#include "Gate.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API ALabDoor : public AActor,public IInteractInterface
+class INCOMPLETEEVOLUTION_API AGate : public AActor,public IInteractInterface
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ALabDoor();
-
+	AGate();
 	UFUNCTION()
 	virtual FString OnInteract();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* LeftDoor;
+	UStaticMeshComponent* UpGate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UStaticMeshComponent* RightDoor;
+	UStaticMeshComponent* DownGate;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USpotLightComponent* SpotLightComp;
 
 	bool bIsOpening = false;
 	float CurrentTime;
 	const float TimeLimit = 4;
-	
-	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	bool OpenDirection = true;
 
-	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	bool IsLocked;
-
-	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	bool KeyOpen = true;
-
-	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	USoundBase* Voice_DoorOpen;
-	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
+
 	UFUNCTION()
 	void OpenDoor();
-
 	
-
 };

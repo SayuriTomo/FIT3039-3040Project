@@ -35,9 +35,7 @@ FString ALabDoor::OnInteract()
 		if(KeyOpen)
 		{
 			OpenDoor();
-			Player -> InteractCharacterName = "Door";
-			InteractMessage = "Opening";
-			Player->InteractingEnd = true;
+			Player->Interacting = false;
 		}
 		else
 		{
@@ -52,7 +50,8 @@ FString ALabDoor::OnInteract()
 
 void ALabDoor::OpenDoor()
 {
-	Opening = true;
+	bIsOpening = true;
+	bIsActive = false;
 	UGameplayStatics::PlaySoundAtLocation(this, Voice_DoorOpen, GetActorLocation());
 }
 
@@ -66,19 +65,28 @@ void ALabDoor::BeginPlay()
 void ALabDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(Opening)
+	if(bIsOpening)
 	{
 		if(CurrentTime<TimeLimit)
 		{
+			
 			FVector LeftLocation = LeftDoor->GetComponentLocation();
-			FVector RightLocation = RightDoor->GetComponentLocation();\
-			LeftDoor->SetWorldLocation(FVector(LeftLocation.X-75*DeltaTime,LeftLocation.Y,LeftLocation.Z));
-			RightDoor->SetWorldLocation(FVector(RightLocation.X+75*DeltaTime,RightLocation.Y,RightLocation.Z));
+			FVector RightLocation = RightDoor->GetComponentLocation();
+			if(OpenDirection)
+			{
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X-75*DeltaTime,LeftLocation.Y,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X+75*DeltaTime,RightLocation.Y,RightLocation.Z));
+			}
+			else
+			{
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-75*DeltaTime,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+75*DeltaTime,RightLocation.Z));
+			}
 			CurrentTime+=DeltaTime;
 		}
 		else
 		{
-			Opening=false;
+			bIsOpening=false;
 			this->Destroy();
 		}
 	}

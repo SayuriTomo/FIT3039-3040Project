@@ -17,6 +17,7 @@ AAbilityActiveActor::AAbilityActiveActor()
 
 FString AAbilityActiveActor::OnInteract()
 {
+	this->bIsActive =false;
 	return ReadMessage(M_AbilityLearn,C_AbilityLearn);
 }
 

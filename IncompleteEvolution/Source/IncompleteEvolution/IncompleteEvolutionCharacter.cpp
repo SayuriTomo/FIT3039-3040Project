@@ -184,9 +184,12 @@ void AIncompleteEvolutionCharacter::ProcessInteractHit(FHitResult& HitOut)
 {
 	if(IInteractInterface* ActorCheck = Cast<IInteractInterface>(HitOut.GetActor()))
 	{
-		Interacting = true;
-		InteractText = ActorCheck->OnInteract();
-		InteractActor = HitOut.GetActor();
+		if(ActorCheck->bIsActive)
+		{
+			Interacting = true;
+			InteractText = ActorCheck->OnInteract();
+			InteractActor = HitOut.GetActor();
+		}
 	}
 }
 
@@ -442,32 +445,6 @@ void AIncompleteEvolutionCharacter::CallMyTrace(int Number)
 				default:{}
 			}
 			
-			/*
-			if(Number == 1)
-			{
-				ProcessGrabHit(HitData);
-			}
-			else if(Number == 2)
-			{
-				ProcessScaleHit(HitData);
-			}
-			else if(Number == 3)
-			{
-				ProcessAimHit(HitData);
-			}
-			else if(Number == 4)
-			{
-				ProcessInteractHit(HitData);
-			}
-			else if(Number == 5)
-			{
-				ProcessSingleGrabHit(HitData);
-			}
-			else if(Number ==6)
-			{
-				ProcessFixHit(HitData);
-			}*/
-			
 		} else
 		{
 			// The trace did not return an Actor
@@ -522,7 +499,8 @@ void AIncompleteEvolutionCharacter::ProcessAimHit(FHitResult& HitOut)
 		AimGrab = false;
 	}
 	
-	if(Cast<IInteractInterface>(HitOut.GetActor()))
+	if(Cast<IInteractInterface>(HitOut.GetActor())
+		&&Cast<IInteractInterface>(HitOut.GetActor())->bIsActive)
 	{
 		AimInteract = true;
 	}

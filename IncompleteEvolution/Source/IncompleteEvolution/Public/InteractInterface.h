@@ -24,4 +24,6 @@ class INCOMPLETEEVOLUTION_API IInteractInterface
 public:
 	UFUNCTION()
 	virtual FString OnInteract() = 0;
+
+	bool bIsActive = true;
 };
