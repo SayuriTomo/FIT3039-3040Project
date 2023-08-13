@@ -4,36 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ActorGrab.generated.h"
+#include "Components/BoxComponent.h"
+#include "ShapeMatch.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API AActorGrab : public AActor
+class INCOMPLETEEVOLUTION_API AShapeMatch : public AActor
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere)UStaticMeshComponent* ActorMesh;
 	
 public:	
 	// Sets default values for this actor's properties
-	AActorGrab();
+	AShapeMatch();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)UStaticMeshComponent* MainBody;
+	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBox;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere)
-	UMaterialInstance* OriginalMaterial;
-	UPROPERTY(EditAnywhere)
-	UMaterialInstance* FixMaterial;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool IsGrabbing = false;
-
-	bool IsFixing=false;
+	bool bHasPlaced;
 
 	UPROPERTY(EditAnywhere)
-	int ShapeSymbol = 1;
+	int ShapeRequired;
 
 };
