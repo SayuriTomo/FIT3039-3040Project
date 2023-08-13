@@ -29,7 +29,7 @@ protected:
 
 	bool bIsOpening = false;
 	float CurrentTime;
-	const float TimeLimit = 4;
+	const float TimeLimit =4;
 	
 	UPROPERTY(EditAnywhere,Category="Additional Attributes")
 	bool OpenDirection = true;

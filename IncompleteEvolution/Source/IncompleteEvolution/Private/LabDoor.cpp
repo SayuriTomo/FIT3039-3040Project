@@ -74,13 +74,13 @@ void ALabDoor::Tick(float DeltaTime)
 			FVector RightLocation = RightDoor->GetComponentLocation();
 			if(OpenDirection)
 			{
-				LeftDoor->SetWorldLocation(FVector(LeftLocation.X-75*DeltaTime,LeftLocation.Y,LeftLocation.Z));
-				RightDoor->SetWorldLocation(FVector(RightLocation.X+75*DeltaTime,RightLocation.Y,RightLocation.Z));
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X-25*DeltaTime,LeftLocation.Y,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X+25*DeltaTime,RightLocation.Y,RightLocation.Z));
 			}
 			else
 			{
-				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-75*DeltaTime,LeftLocation.Z));
-				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+75*DeltaTime,RightLocation.Z));
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-25*DeltaTime,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+25*DeltaTime,RightLocation.Z));
 			}
 			CurrentTime+=DeltaTime;
 		}
