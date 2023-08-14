@@ -13,8 +13,10 @@ AShapeMatch::AShapeMatch()
 	MainBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Body"));
 	MainBody->SetupAttachment(RootComponent);
 
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
-	CollisionBox->SetupAttachment(MainBody);
+	CollisionBoxUp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component UP"));
+	CollisionBoxDown = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component Down"));
+	CollisionBoxUp->SetupAttachment(MainBody);
+	CollisionBoxDown->SetupAttachment(MainBody);
 	
 	
 }
@@ -23,7 +25,6 @@ AShapeMatch::AShapeMatch()
 void AShapeMatch::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 
@@ -33,30 +34,31 @@ void AShapeMatch::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-		TArray<AActor*> Actors;
-		TSubclassOf<AActorGrab> ActorGrabs;
-		GetOverlappingActors(Actors,ActorGrabs);
-		for(AActor* Actor:Actors)
+	TArray<AActor*> Actors;
+	TSubclassOf<AActorGrab> ActorGrabs;
+	GetOverlappingActors(Actors,ActorGrabs);
+	if(Actors.IsEmpty())
+	{
+		bHasPlaced=false;
+	}
+	for(AActor* Actor:Actors)
+	{
+		if(Cast<AActorGrab>(Actor)
+			&&!Cast<AActorGrab>(Actor)->IsGrabbing
+			&&!Cast<AActorGrab>(Actor)->IsFixing
+			&&Cast<AActorGrab>(Actor)->ShapeSymbol == ShapeRequired
+			&&Actor->GetActorScale3D().X<=CollisionBoxUp->GetRelativeScale3D().X
+			&&Actor->GetActorScale3D().Y<=CollisionBoxUp->GetRelativeScale3D().Y
+			&&Actor->GetActorScale3D().Z<=CollisionBoxUp->GetRelativeScale3D().Z
+			&&!bHasPlaced)
 		{
-			if(Cast<AActorGrab>(Actor)
-				&&!Cast<AActorGrab>(Actor)->IsGrabbing
-				&&!Cast<AActorGrab>(Actor)->IsFixing
-				&&Cast<AActorGrab>(Actor)->ShapeSymbol == ShapeRequired
-				&&Actor->GetActorScale3D().X<=CollisionBox->GetRelativeScale3D().X
-				&&Actor->GetActorScale3D().Y<=CollisionBox->GetRelativeScale3D().Y
-				&&Actor->GetActorScale3D().Z<=CollisionBox->GetRelativeScale3D().Z
-				&&bHasPlaced)
-			{
-				Actor->SetActorLocation(CollisionBox->GetComponentLocation());
-				Actor->SetActorScale3D(CollisionBox->GetRelativeScale3D());
-				Actor->SetActorRotation(CollisionBox->GetComponentRotation());
-				bHasPlaced = false;
-			}
-			else
-			{
-				bHasPlaced = true;
-			}
+			Actor->SetActorLocation(CollisionBoxUp->GetComponentLocation());
+			Actor->SetActorScale3D(FVector(0.5,0.5,0.5));
+			Actor->SetActorRotation(CollisionBoxUp->GetComponentRotation());
+			bHasPlaced = true;
 		}
+	}
+	
 }
 
 

@@ -27,8 +27,7 @@ protected:
 	UStaticMeshComponent* UpGate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* DownGate;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USpotLightComponent* SpotLightComp;
+	
 
 	bool bIsOpening = false;
 	float CurrentTime;

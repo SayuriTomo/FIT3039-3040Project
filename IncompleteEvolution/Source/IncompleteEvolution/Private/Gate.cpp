@@ -12,11 +12,10 @@ AGate::AGate()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
 	UpGate = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Up Gate"));
 	DownGate = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Down Gate"));
-	SpotLightComp = CreateDefaultSubobject<USpotLightComponent>(TEXT("Light Component"));
 	
 	UpGate->SetupAttachment(RootComponent);
 	DownGate->SetupAttachment(RootComponent);
-	SpotLightComp -> SetupAttachment(RootComponent);
+
 
 }
 
@@ -40,7 +39,7 @@ void AGate::OpenDoor()
 void AGate::BeginPlay()
 {
 	Super::BeginPlay();
-	SpotLightComp -> SetVisibility(false);
+	
 }
 
 // Called every frame
@@ -62,7 +61,7 @@ void AGate::Tick(float DeltaTime)
 		else
 		{
 			bIsOpening=false;
-			SpotLightComp -> SetVisibility(true);
+		
 			UpGate->SetVisibility(false);
 			DownGate->SetVisibility(false);
 		}

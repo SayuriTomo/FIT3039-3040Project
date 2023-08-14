@@ -16,7 +16,8 @@ public:
 	// Sets default values for this actor's properties
 	AShapeMatch();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)UStaticMeshComponent* MainBody;
-	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBox;
+	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBoxUp;
+	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBoxDown;
 
 protected:
 	// Called when the game starts or when spawned
