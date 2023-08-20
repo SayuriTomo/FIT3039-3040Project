@@ -42,10 +42,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category="SplineInfo")
 	class ADrink* Drink;
 	
-	UPROPERTY(EditAnywhere, Category = "SplineInfo")
+	UPROPERTY(EditAnywhere, Category = "Drink Can")
 	TSubclassOf<class ADrink> DrinkClass;
 	
 	void DrinkFall();
+	
+	UPROPERTY(EditAnywhere, Category = "Drink Can")
+	int CoinRequired;
 	
 public:	
 	// Called every frame

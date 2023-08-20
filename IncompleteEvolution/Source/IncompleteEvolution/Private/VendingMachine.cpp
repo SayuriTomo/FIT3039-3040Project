@@ -27,10 +27,22 @@ FString AVendingMachine::OnInteract()
 	FString InteractMessage;
 	AIncompleteEvolutionCharacter* Player =
 			Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	Player->Interacting = false;
-	FVector SpawnLocation = this->GetActorLocation();
-	Drink = (ADrink*) GetWorld()->SpawnActor(DrinkClass, &SpawnLocation);
-	DrinkFall();
+
+	if(Player->CoinOwned<CoinRequired)
+	{
+		InteractMessage = "I don't have enough coins";
+		Player->InteractCharacterName = "Ethan";
+		Player->InteractingEnd = true;
+		return  InteractMessage;
+	}
+	else
+	{
+		Player->CoinOwned -= CoinRequired;
+		Player->Interacting = false;
+		FVector SpawnLocation = this->GetActorLocation();
+		Drink = (ADrink*) GetWorld()->SpawnActor(DrinkClass, &SpawnLocation);
+		DrinkFall();
+	}
 	return  InteractMessage;
 }
 

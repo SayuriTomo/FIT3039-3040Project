@@ -140,19 +140,22 @@ public:
 	void ProcessAimHit(FHitResult& HitOut);
 	float AimTime = 0;
 	const float AimTimeInterval = 10;
-	
+
+	// Dialogue Module
 	FString InteractText;
 	FString InteractCharacterName;
 	AActor* InteractActor;
 	
-	
 	UPROPERTY(BlueprintReadWrite)
 	bool Interacting = false;
 	bool InteractingEnd = false;
-	
+
+	// Grab Module Additional
 	UPROPERTY(BlueprintReadWrite)
 	bool WhetherGrab = false;
 	bool WhetherScale = false;
+
+	// Target Module
 	bool TargetUpdate;
 	FString TaskText;
 
@@ -168,7 +171,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsEnd = false;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Required Attributes")
 	bool bIsStart = true;
 	void ReadPrologue();
 	int Index=0;
@@ -186,8 +189,10 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<FString> C_Prologue ={"Media","Media","Media","Media","Media","Media","Media","Media","Player"};
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category="Required Attributes")
 	bool bIsGrabActive = false;
-
+	
+	UPROPERTY(EditAnywhere,Category="Required Attributes")
+	int CoinOwned;
 };
 
