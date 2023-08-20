@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "LabDoor.h"
+#include "Interaction/LabDoor.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "Kismet/GameplayStatics.h"
 

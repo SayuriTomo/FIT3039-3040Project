@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Gate.h"
+#include "Interaction/Gate.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 
 // Sets default values

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "VendingMachine.h"
+#include "Interaction/VendingMachine.h"
 
 
 

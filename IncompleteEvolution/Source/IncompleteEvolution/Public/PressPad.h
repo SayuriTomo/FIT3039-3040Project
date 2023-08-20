@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "LabDoor.h"
+#include "Interaction/LabDoor.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
 #include "PressPad.generated.h"

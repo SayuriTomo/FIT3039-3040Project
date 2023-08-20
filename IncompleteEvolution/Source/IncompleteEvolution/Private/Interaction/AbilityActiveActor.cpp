@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "AbilityActiveActor.h"
+#include "Interaction/AbilityActiveActor.h"
 
 // Sets default values
 AAbilityActiveActor::AAbilityActiveActor()

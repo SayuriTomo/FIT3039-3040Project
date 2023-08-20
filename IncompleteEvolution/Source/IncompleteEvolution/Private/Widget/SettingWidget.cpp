@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SettingWidget.h"
+#include "Widget/SettingWidget.h"
 #include "GameFramework/GameUserSettings.h"
 
 void USettingWidget::SM_SelectedButtonOnClick()
