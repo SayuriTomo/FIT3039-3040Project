@@ -73,9 +73,11 @@ void ARotationDevice::Tick(float DeltaTime)
 			{
 				UGameplayStatics::PlaySoundAtLocation(this, Voice_Complete, GetActorLocation());
 				IsActive =false;
+				bIsActive = false;
 				for(ARotationDevice* ChildActor:ChildrenActor)
 				{
 					ChildActor->IsActive=false;
+					ChildActor->bIsActive = false;
 				}
 			}
 		}
