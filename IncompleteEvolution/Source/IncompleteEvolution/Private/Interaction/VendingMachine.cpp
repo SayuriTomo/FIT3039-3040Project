@@ -15,10 +15,10 @@ AVendingMachine::AVendingMachine()
 	SplineComponent = CreateDefaultSubobject<USplineComponent>(TEXT("Spline Component"));
 	SplineComponent->SetupAttachment(MainBody);
 
-	static ConstructorHelpers::FObjectFinder<UBlueprint> DrinkBlueprint(TEXT("Blueprint'/Game/FIT3039-3040Project/Blueprints/ActorGrab/BP_Drink.BP_Drink'"));
+	/*static ConstructorHelpers::FObjectFinder<UBlueprint> DrinkBlueprint(TEXT("Blueprint'/Game/FIT3039-3040Project/Blueprints/ActorGrab/BP_Drink.BP_Drink'"));
 	if (DrinkBlueprint.Object){
 		DrinkClass = DrinkBlueprint.Object->GeneratedClass;
-	}
+	}*/
 
 }
 
