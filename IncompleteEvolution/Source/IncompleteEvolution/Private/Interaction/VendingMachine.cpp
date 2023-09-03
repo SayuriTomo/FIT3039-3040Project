@@ -39,6 +39,8 @@ FString AVendingMachine::OnInteract()
 	{
 		Player->CoinOwned -= CoinRequired;
 		Player->Interacting = false;
+		bIsDrinkFalling = true;
+		bIsActive = false;
 		FVector SpawnLocation = this->GetActorLocation();
 		Drink = (ADrink*) GetWorld()->SpawnActor(DrinkClass, &SpawnLocation);
 		DrinkFall();
@@ -73,11 +75,24 @@ void AVendingMachine::Tick(float DeltaTime)
 	{
 		TimelineComponent->TickComponent(DeltaTime,ELevelTick::LEVELTICK_TimeOnly,NULL);
 	}
+
+	if(!bIsActive)
+	{
+		if(TimeFalling>=TimeFallingRequired)
+		{
+			TimeFalling = 0.f;
+			bIsActive = true;
+		}
+		else
+		{
+			TimeFalling += DeltaTime;
+		}
+		
+	}
 }
 
 void AVendingMachine::DrinkFall()
 {
-	
 	if(CurveFloat!=nullptr)
 	{
 		TimelineComponent = NewObject<UTimelineComponent>(this,TEXT("Timeline Component"));

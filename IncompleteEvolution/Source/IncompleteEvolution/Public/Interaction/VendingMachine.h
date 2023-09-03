@@ -50,6 +50,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Drink Can")
 	int CoinRequired;
 	
+	float TimeFalling = 0.f;
+
+	UPROPERTY(EditAnywhere, Category = "Drink Can")
+	float TimeFallingRequired = 5.0f;
+
+	bool bIsDrinkFalling;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

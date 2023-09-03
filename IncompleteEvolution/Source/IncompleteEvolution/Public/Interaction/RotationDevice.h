@@ -38,6 +38,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* Voice_Complete;
+	
+	UPROPERTY(EditAnywhere)
+    float RotationSpeed = 1.f;
 
 public:	
 	// Called every frame

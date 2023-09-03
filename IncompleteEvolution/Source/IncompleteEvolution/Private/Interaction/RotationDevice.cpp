@@ -38,8 +38,8 @@ void ARotationDevice::Tick(float DeltaTime)
 		if(IsRotating)
 		{
 			FRotator CurrentRotation = this->GetActorRotation();
-			FRotator NextRotation = FRotator(CurrentRotation.Pitch,CurrentRotation.Yaw+1,CurrentRotation.Roll);
-			RotationDegree += 1;
+			FRotator NextRotation = FRotator(CurrentRotation.Pitch,CurrentRotation.Yaw+RotationSpeed,CurrentRotation.Roll);
+			RotationDegree += RotationSpeed;
 			SetActorRotation(NextRotation);
 			if(RotationDegree % 90 ==0)
 			{
