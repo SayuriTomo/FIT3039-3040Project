@@ -21,8 +21,11 @@ public:
 
 	virtual FString OnInteract() override;
 	
-	bool bCanBePlayed = true;
 	bool bIsPlaying = false;
+
+	UPROPERTY(EditAnywhere)
+	int KeyTag;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

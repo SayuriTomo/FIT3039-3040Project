@@ -26,7 +26,21 @@ protected:
 	UPROPERTY(EditAnywhere)
 	TArray<AXylophoneComponent*> ChildrenActors;
 
-	float Time =0.5f;
+	UPROPERTY(EditAnywhere)
+	TArray<int> KeyOrderRequired;
+
+	TArray<int> CurrentKeyPressed;
+	
+	float RestTimeToClear = 5.0f;
+	
+	UPROPERTY(EditAnywhere)
+	USoundBase* SuccessVoice;
+
+	bool bIsAchieved = false;
+
+	bool bPreparePlaySuccess = false;
+
+	float PrepareTime= 0.5f;
 
 public:	
 	// Called every frame

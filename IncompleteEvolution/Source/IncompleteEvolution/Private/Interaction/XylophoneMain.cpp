@@ -3,6 +3,8 @@
 
 #include "Interaction/XylophoneMain.h"
 
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 AXylophoneMain::AXylophoneMain()
 {
@@ -24,37 +26,57 @@ void AXylophoneMain::BeginPlay()
 void AXylophoneMain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	if(CurrentKeyPressed == KeyOrderRequired && !bIsAchieved)
+	{
+		bIsAchieved = true;
+		bPreparePlaySuccess = true;
+	}
 
+	if(bPreparePlaySuccess)
+	{
+		PrepareTime -= DeltaTime;
+		if(PrepareTime<=0)
+		{
+			UGameplayStatics::PlaySoundAtLocation(this, SuccessVoice, GetActorLocation());
+			bPreparePlaySuccess = false;
+		}
+	}
+	
+	if(CurrentKeyPressed.Num()>KeyOrderRequired.Num())
+	{
+		CurrentKeyPressed.Empty();
+	}
+	
+	if(!CurrentKeyPressed.IsEmpty()&&RestTimeToClear>0)
+	{
+		if(RestTimeToClear>0)
+		{
+			RestTimeToClear -= DeltaTime;
+		}
+		else
+		{
+			CurrentKeyPressed.Empty();
+			RestTimeToClear = 5.0f;
+		}
+
+		for(int i  = 0;i<CurrentKeyPressed.Num();i++)
+		{
+			UE_LOG(LogTemp,Warning,TEXT("ii,%d"),i);
+			UE_LOG(LogTemp,Warning,TEXT("ddd,%d"),CurrentKeyPressed[i]);
+		}
+	}
+	
 	bool bIsAnyCompPlaying = false;
 	for(AXylophoneComponent* ChildActor:ChildrenActors)
 	{
 		if(ChildActor->bIsPlaying)
 		{
-			bIsAnyCompPlaying = true;
+			CurrentKeyPressed.Add(ChildActor->KeyTag);
+			ChildActor->bIsPlaying = false;
+			RestTimeToClear = 5.0f;
+			
 		}
 	}
-
-	if(bIsAnyCompPlaying)
-	{
-		if(Time>0)
-		{
-			for(AXylophoneComponent* ChildActor:ChildrenActors)
-			{
-				ChildActor->bCanBePlayed = false;
-			}
-		}
-		else
-		{
-			for(AXylophoneComponent* ChildActor:ChildrenActors)
-			{
-				ChildActor->bCanBePlayed = true;
-				bIsAnyCompPlaying = false;
-				Time = 0.5f;
-			}
-		}
-		Time-= DeltaTime;
-		
-	}
-
 }
 

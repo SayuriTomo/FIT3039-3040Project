@@ -18,10 +18,9 @@ AXylophoneComponent::AXylophoneComponent()
 
 FString AXylophoneComponent::OnInteract()
 {
-	if(bCanBePlayed)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, Voice, GetActorLocation());
-	}
+	bIsPlaying = true;
+	UGameplayStatics::PlaySoundAtLocation(this, Voice, GetActorLocation());
+	
 	AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 	Player->Interacting=false;
 	return "";
