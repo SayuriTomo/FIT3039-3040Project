@@ -194,5 +194,8 @@ public:
 	
 	UPROPERTY(EditAnywhere,Category="Required Attributes")
 	int CoinOwned;
+
+	bool GetPuzzleKeyOne = false;
+	bool GetPuzzleKeyTwo = false;
 };
 
