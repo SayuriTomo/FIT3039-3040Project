@@ -55,10 +55,10 @@ protected:
 	float CurrentTime;
 	
 	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	float TimeLimit = 4;
+	float TimeLimit;
 
 	UPROPERTY(EditAnywhere,Category="Additional Attributes")
-	float MoveSpeed = 25;
+	float MoveSpeed;
 
 	void OpenDoor(float DeltaTime);
 

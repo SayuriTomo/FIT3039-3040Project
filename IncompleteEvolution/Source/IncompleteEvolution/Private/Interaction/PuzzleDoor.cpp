@@ -60,7 +60,7 @@ FString APuzzleDoor::OnInteract()
 	else
 	{
 		Player -> InteractCharacterName = "Player";
-		InteractMessage = "I cannot operate from here";
+		InteractMessage = "I can't do this";
 	}
 	
 	
