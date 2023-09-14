@@ -12,11 +12,9 @@ AShapeMatch::AShapeMatch()
 	PrimaryActorTick.bCanEverTick = true;
 	MainBody = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Main Body"));
 	MainBody->SetupAttachment(RootComponent);
-
-	CollisionBoxUp = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component UP"));
-	CollisionBoxDown = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component Down"));
-	CollisionBoxUp->SetupAttachment(MainBody);
-	CollisionBoxDown->SetupAttachment(MainBody);
+	
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
+	CollisionBox->SetupAttachment(MainBody);
 	
 	
 }
@@ -39,7 +37,8 @@ void AShapeMatch::Tick(float DeltaTime)
 	GetOverlappingActors(Actors,ActorGrabs);
 	if(Actors.IsEmpty())
 	{
-		bHasPlaced=false;
+		bHasPlaced = false;
+		bFirstPlaced = false;
 	}
 	for(AActor* Actor:Actors)
 	{
@@ -47,14 +46,18 @@ void AShapeMatch::Tick(float DeltaTime)
 			&&!Cast<AActorGrab>(Actor)->IsGrabbing
 			&&!Cast<AActorGrab>(Actor)->IsFixing
 			&&Cast<AActorGrab>(Actor)->ShapeSymbol == ShapeRequired
-			&&Actor->GetActorScale3D().X<=CollisionBoxUp->GetRelativeScale3D().X
-			&&Actor->GetActorScale3D().Y<=CollisionBoxUp->GetRelativeScale3D().Y
-			&&Actor->GetActorScale3D().Z<=CollisionBoxUp->GetRelativeScale3D().Z
+			&&Actor->GetActorScale3D().X<=CustomSize.X
+			&&Actor->GetActorScale3D().Y<=CustomSize.Y
+			&&Actor->GetActorScale3D().Z<=CustomSize.Z
 			&&!bHasPlaced)
 		{
-			Actor->SetActorLocation(CollisionBoxUp->GetComponentLocation());
-			Actor->SetActorScale3D(FVector(0.5,0.5,0.5));
-			Actor->SetActorRotation(CollisionBoxUp->GetComponentRotation());
+			if(!bFirstPlaced)
+			{
+				Actor->SetActorLocation(CollisionBox->GetComponentLocation());
+				bFirstPlaced = true;
+			}
+			Actor->SetActorScale3D(CustomSize);
+			Actor->SetActorRotation(CollisionBox->GetComponentRotation());
 			bHasPlaced = true;
 		}
 	}

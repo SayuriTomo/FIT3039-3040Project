@@ -16,8 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	AShapeMatch();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)UStaticMeshComponent* MainBody;
-	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBoxUp;
-	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBoxDown;
+	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBox;
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,8 +27,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	bool bHasPlaced;
+	bool bFirstPlaced;
 
 	UPROPERTY(EditAnywhere)
 	int ShapeRequired;
+
+	UPROPERTY(EditAnywhere)
+	FVector CustomSize;
 
 };

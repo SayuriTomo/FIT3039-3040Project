@@ -146,14 +146,14 @@ void APuzzleDoor::OpenDoor(float DeltaTime)
 			}
 		case 2:
 			{
-				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-25*DeltaTime,LeftLocation.Z));
-				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+25*DeltaTime,RightLocation.Z));
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-MoveSpeed*DeltaTime,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+MoveSpeed*DeltaTime,RightLocation.Z));
 				break;
 			}
 		case 3:
 			{
-				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y+25*DeltaTime,LeftLocation.Z));
-				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y-25*DeltaTime,RightLocation.Z));
+				LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y+MoveSpeed*DeltaTime,LeftLocation.Z));
+				RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y-MoveSpeed*DeltaTime,RightLocation.Z));
 				break;
 			}
 		default:{}
@@ -182,14 +182,14 @@ void APuzzleDoor::CloseDoor(float DeltaTime)
 		}
 	case 2:
 		{
-			LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y+25*DeltaTime,LeftLocation.Z));
-			RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y-25*DeltaTime,RightLocation.Z));
+			LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y+MoveSpeed*DeltaTime,LeftLocation.Z));
+			RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y-MoveSpeed*DeltaTime,RightLocation.Z));
 			break;
 		}
 	case 3:
 		{
-			LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-25*DeltaTime,LeftLocation.Z));
-			RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+25*DeltaTime,RightLocation.Z));
+			LeftDoor->SetWorldLocation(FVector(LeftLocation.X,LeftLocation.Y-MoveSpeed*DeltaTime,LeftLocation.Z));
+			RightDoor->SetWorldLocation(FVector(RightLocation.X,RightLocation.Y+MoveSpeed*DeltaTime,RightLocation.Z));
 			break;
 		}
 	default:{}
