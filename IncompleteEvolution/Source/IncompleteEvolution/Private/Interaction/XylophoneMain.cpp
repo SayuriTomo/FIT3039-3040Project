@@ -43,39 +43,16 @@ void AXylophoneMain::Tick(float DeltaTime)
 		}
 	}
 	
-	if(CurrentKeyPressed.Num()>KeyOrderRequired.Num())
-	{
-		CurrentKeyPressed.Empty();
-	}
-	
-	if(!CurrentKeyPressed.IsEmpty()&&RestTimeToClear>0)
-	{
-		if(RestTimeToClear>0)
-		{
-			RestTimeToClear -= DeltaTime;
-		}
-		else
-		{
-			CurrentKeyPressed.Empty();
-			RestTimeToClear = 5.0f;
-		}
-
-		for(int i  = 0;i<CurrentKeyPressed.Num();i++)
-		{
-			UE_LOG(LogTemp,Warning,TEXT("ii,%d"),i);
-			UE_LOG(LogTemp,Warning,TEXT("ddd,%d"),CurrentKeyPressed[i]);
-		}
-	}
-	
-	bool bIsAnyCompPlaying = false;
 	for(AXylophoneComponent* ChildActor:ChildrenActors)
 	{
 		if(ChildActor->bIsPlaying)
 		{
 			CurrentKeyPressed.Add(ChildActor->KeyTag);
+			if(CurrentKeyPressed.Num()>KeyOrderRequired.Num())
+			{
+				CurrentKeyPressed.RemoveAt(0);
+			}
 			ChildActor->bIsPlaying = false;
-			RestTimeToClear = 5.0f;
-			
 		}
 	}
 }

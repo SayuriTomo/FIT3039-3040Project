@@ -49,6 +49,9 @@ void AShapeMatch::Tick(float DeltaTime)
 			&&Actor->GetActorScale3D().X<=CustomSize.X
 			&&Actor->GetActorScale3D().Y<=CustomSize.Y
 			&&Actor->GetActorScale3D().Z<=CustomSize.Z
+			&&Actor->GetActorScale3D().X>=MinCustomSize.X
+			&&Actor->GetActorScale3D().X>=MinCustomSize.Y
+			&&Actor->GetActorScale3D().X>=MinCustomSize.Z
 			&&!bHasPlaced)
 		{
 			if(!bFirstPlaced)

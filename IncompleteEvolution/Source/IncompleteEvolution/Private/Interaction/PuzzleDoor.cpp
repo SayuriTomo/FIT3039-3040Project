@@ -28,7 +28,7 @@ APuzzleDoor::APuzzleDoor()
 FString APuzzleDoor::OnInteract()
 {
 	FString InteractMessage;
-	if(bIsPlayerRightSide)
+	if(bIsActive)
 	{
 		if(bRequireOne)
 		{
@@ -57,13 +57,6 @@ FString APuzzleDoor::OnInteract()
 			}
 		}
 	}
-	else
-	{
-		Player -> InteractCharacterName = "Player";
-		InteractMessage = "I can't do this";
-	}
-	
-	
 	Player->InteractingEnd = true;
 	return InteractMessage;
 }
@@ -73,6 +66,9 @@ void APuzzleDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	LeftInitialLocation = LeftDoor->GetComponentLocation();
+	RightInitialLocation = RightDoor->GetComponentLocation();
 }
 
 // Called every frame
@@ -92,12 +88,26 @@ void APuzzleDoor::Tick(float DeltaTime)
 			bFoundPlayer = true;
 		}
 	}
-	bIsPlayerRightSide = bFoundPlayer;
+	bIsActive = bFoundPlayer;
+	
+	
 	
 	if(bIsOperating)
 	{
 		bIsActive = false;
-		if(CurrentTime<TimeLimit)
+		
+		if(CurrentTime>TimeLimit)
+		{
+			bIsActive = true;
+			CurrentTime = 0;
+			bIsOperating = false;
+			if(!bIsOpened)
+			{
+				LeftDoor->SetWorldLocation(LeftInitialLocation);
+				RightDoor->SetWorldLocation(RightInitialLocation);
+			}
+		}
+		else
 		{
 			if(!bIsOpened)
 			{
@@ -108,12 +118,6 @@ void APuzzleDoor::Tick(float DeltaTime)
 				CloseDoor(DeltaTime);
 			}
 			CurrentTime+=DeltaTime;
-		}
-		else
-		{
-			bIsActive = true;
-			CurrentTime = 0;
-			bIsOperating = false;
 		}
 	}
 }
@@ -158,8 +162,6 @@ void APuzzleDoor::OpenDoor(float DeltaTime)
 			}
 		default:{}
 	}
-	
-	
 }
 
 void APuzzleDoor::CloseDoor(float DeltaTime)

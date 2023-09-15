@@ -65,10 +65,11 @@ protected:
 	void CloseDoor(float DeltaTime);
 
 	void Operate();
-
-	bool bIsPlayerRightSide = false;
 	
 	AIncompleteEvolutionCharacter* Player;
+
+	FVector LeftInitialLocation;
+	FVector RightInitialLocation;
 	
 public:	
 	// Called every frame

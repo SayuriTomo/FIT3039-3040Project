@@ -31,8 +31,6 @@ protected:
 
 	TArray<int> CurrentKeyPressed;
 	
-	float RestTimeToClear = 5.0f;
-	
 	UPROPERTY(EditAnywhere)
 	USoundBase* SuccessVoice;
 

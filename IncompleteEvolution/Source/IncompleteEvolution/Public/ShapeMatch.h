@@ -35,4 +35,7 @@ public:
 	UPROPERTY(EditAnywhere)
 	FVector CustomSize;
 
+	UPROPERTY(EditAnywhere)
+	FVector MinCustomSize;
+
 };
