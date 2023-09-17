@@ -43,6 +43,7 @@ FString AChargingPort::OnInteract()
 	if(Time == 14)
 	{
 		CarlActor->Player->bIsEnd = true;
+		bIsActive = false;
 	}
 	return CarlActor->Charging();
 }
