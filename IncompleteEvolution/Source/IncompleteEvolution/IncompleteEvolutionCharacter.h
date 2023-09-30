@@ -197,5 +197,9 @@ public:
 
 	bool GetPuzzleKeyOne = false;
 	bool GetPuzzleKeyTwo = false;
+
+	UPROPERTY(BlueprintReadWrite) bool bIsScanAvailable = false;
+	UPROPERTY(BlueprintReadWrite) bool bIsCarlFollowAvailable = false;
+	UPROPERTY(BlueprintReadWrite) bool bIsFlashLightAvailable = false;
 };
 
