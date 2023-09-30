@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Carl.h"
+#include "Gate.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
 #include "ChargingPort.generated.h"
@@ -36,16 +37,13 @@ protected:
 	UStaticMeshComponent* CarlMesh2;
 
 	ACarl* CarlActor;
-	
-	bool IsActive = false;
 
 	float Time = 0;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(EditAnywhere)
-	USoundBase* Noise;
+	
+	UPROPERTY(EditAnywhere)AGate* GateControlled;
 
 };

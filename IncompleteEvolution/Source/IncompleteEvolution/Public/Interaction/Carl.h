@@ -54,16 +54,8 @@ protected:
 	TArray<FString> M_HasGetKey = {"You got it!", "Now we need to go to Power Supply Room"};
 	TArray<FString> C_HasGetKey ={"Carl","Carl"};
 	
-	TArray<FString> M_Charging = {
-		"Reading---","Complete","OK, Ethan","I have got access to this level",
-		"Let's move on","And I will explain what happened here",
-		"By the way, do you remember Emily", "Emily? Who?","Ouch!","Experiment No.1001 start",
-		"Who's there","Start recording","Ethan, can you hear me?","Start the injection"};
-	TArray<FString> C_Charging ={
-		"Carl", "Carl", "Carl", "Carl",
-		"Carl", "Carl",
-		"Carl","Ethan","Ethan","???",
-		"Ethan","???","Carl","???"};
+	TArray<FString> M_Charging = {"Reading---","Complete","OK, Ethan","I have got access to this level","Let's move on"};
+	TArray<FString> C_Charging ={"Carl", "Carl", "Carl", "Carl","Carl"};
 
 	FString ReadMessage(TArray<FString> Message,
 		TArray<FString> Character,

@@ -106,30 +106,6 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 					}
 				default:{}
 			}
-			
-			/*
-			if(Contact==0)
-			{
-				IsTurn = true;
-				T_Contact +=1;
-			}
-			else if(Contact==1)
-			{
-				Player->TargetUpdate = true;
-				Player->TaskText = "3. Find the Key card";
-				T_Contact +=1;
-			}
-			else if(Contact==2)
-			{
-				if(Player->GetKey)
-				{
-					Player->TargetUpdate = true;
-					Player->TaskText = "4. Go to Power Supply Room";
-					T_Contact +=1;
-					SetActorLocation(InvisibleLocation);
-				}
-			}*/
-			
 		}
 	}
 	return InteractMessage;

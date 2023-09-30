@@ -26,14 +26,14 @@ AChargingPort::AChargingPort()
 
 FString AChargingPort::OnInteract()
 {
-	if(!IsActive)
+	if(bIsActive)
 	{
 		CarlMesh1->SetVisibility(true);
 		CarlMesh2->SetVisibility(true);
-		IsActive = true;
+		bIsActive = false;
 	}
 	Time += 1;
-	
+	/*
 	if(Time == 9)
 	{
 		CarlActor->MovePPVolume();
@@ -44,6 +44,14 @@ FString AChargingPort::OnInteract()
 	{
 		CarlActor->Player->bIsEnd = true;
 		bIsActive = false;
+	}
+	*/
+	if(Time ==5)
+	{
+		if(GateControlled)
+		{
+			GateControlled -> OpenDoor();
+		}
 	}
 	return CarlActor->Charging();
 }
