@@ -192,7 +192,7 @@ public:
 	UPROPERTY(EditAnywhere,Category="Required Attributes")
 	bool bIsGrabActive = false;
 	
-	UPROPERTY(EditAnywhere,Category="Required Attributes")
+	UPROPERTY(BlueprintReadWrite,EditAnywhere,Category="Required Attributes")
 	int CoinOwned;
 
 	bool GetPuzzleKeyOne = false;
