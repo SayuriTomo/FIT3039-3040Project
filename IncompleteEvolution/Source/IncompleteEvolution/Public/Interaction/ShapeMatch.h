@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "InteractInterface.h"
+#include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "ShapeMatch.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API AShapeMatch : public AActor
+class INCOMPLETEEVOLUTION_API AShapeMatch : public AActor,public IInteractInterface
 {
 	GENERATED_BODY()
 	
@@ -17,6 +19,9 @@ public:
 	AShapeMatch();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)UStaticMeshComponent* MainBody;
 	UPROPERTY(EditAnywhere)UBoxComponent* CollisionBox;
+	
+	UFUNCTION()
+	virtual FString OnInteract();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,8 +31,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	AIncompleteEvolutionCharacter* Player;
+
 	bool bHasPlaced;
 	bool bFirstPlaced;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* KeyInsert;
 
 	UPROPERTY(EditAnywhere)
 	int ShapeRequired;
@@ -37,5 +47,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FVector MinCustomSize;
+
+	UPROPERTY(EditAnywhere)
+	bool bIsNeedToInteract;
+
+	UPROPERTY(EditAnywhere)
+	bool bRequireOne = false;
 
 };

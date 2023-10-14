@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ShapeMatch.h"
+#include "Interaction/ShapeMatch.h"
 
 #include "ActorGrab.h"
 
@@ -15,14 +15,54 @@ AShapeMatch::AShapeMatch()
 	
 	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Component"));
 	CollisionBox->SetupAttachment(MainBody);
+
+	KeyInsert = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Key Component"));
+	KeyInsert->SetupAttachment(MainBody);
 	
-	
+}
+
+FString AShapeMatch::OnInteract()
+{
+	FString InteractMessage;
+	if(!bHasPlaced&&!bFirstPlaced&&bIsNeedToInteract)
+	{
+		bool bIsKeyCorrect = false;
+		if(bRequireOne&&Player->GetPuzzleKeyOne)
+		{
+			Player->GetPuzzleKeyOne = !Player->GetPuzzleKeyOne;
+			bIsKeyCorrect = true;
+		}
+		else if(!bRequireOne&&Player->GetPuzzleKeyTwo)
+		{
+			Player->GetPuzzleKeyTwo = !Player->GetPuzzleKeyTwo;
+			bIsKeyCorrect = true;
+		}
+		
+		if(bIsKeyCorrect)
+		{
+			KeyInsert->SetVisibility(true);
+			bFirstPlaced = true;
+			bHasPlaced = true;
+			bIsActive = false;
+		}
+		
+	}
+
+	Player->Interacting = false;
+	Player->InteractingEnd = true;
+	return InteractMessage;
 }
 
 // Called when the game starts or when spawned
 void AShapeMatch::BeginPlay()
 {
 	Super::BeginPlay();
+	Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if(!bIsNeedToInteract)
+	{
+		bIsActive = false;
+	}
+	KeyInsert->SetVisibility(false);
 }
 
 
