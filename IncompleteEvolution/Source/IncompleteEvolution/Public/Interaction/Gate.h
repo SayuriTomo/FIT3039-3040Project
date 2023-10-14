@@ -4,21 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractInterface.h"
 #include "Components/SpotLightComponent.h"
 #include "Gate.generated.h"
 
 UCLASS()
-class INCOMPLETEEVOLUTION_API AGate : public AActor,public IInteractInterface
+class INCOMPLETEEVOLUTION_API AGate : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
 	AGate();
-	UFUNCTION()
-	virtual FString OnInteract();
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

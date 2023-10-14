@@ -41,7 +41,7 @@ void ARotationDevice::Tick(float DeltaTime)
 			FRotator NextRotation = FRotator(CurrentRotation.Pitch,CurrentRotation.Yaw+RotationSpeed,CurrentRotation.Roll);
 			RotationDegree += RotationSpeed;
 			SetActorRotation(NextRotation);
-			if(RotationDegree % 90 ==0)
+			if(RotationDegree % 45 ==0)
 			{
 				IsRotating = false;
 				if(RotationDegree >= 360)

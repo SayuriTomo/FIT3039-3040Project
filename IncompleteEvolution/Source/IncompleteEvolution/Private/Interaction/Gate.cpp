@@ -19,17 +19,6 @@ AGate::AGate()
 
 }
 
-FString AGate::OnInteract()
-{
-	FString InteractMessage;
-	AIncompleteEvolutionCharacter* Player =
-		Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	
-	OpenDoor();
-	Player->Interacting = false;
-	return InteractMessage;
-}
-
 void AGate::OpenDoor()
 {
 	bIsOpening = true;
