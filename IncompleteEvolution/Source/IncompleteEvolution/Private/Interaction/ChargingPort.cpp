@@ -26,6 +26,30 @@ AChargingPort::AChargingPort()
 
 FString AChargingPort::OnInteract()
 {
+	FString InteractMessage;
+	if(!SecondChargingPort)
+	{
+		return FirstInteract();
+	}
+	else
+	{
+		return SecondInteract();
+	}
+	return InteractMessage;
+}
+
+FString AChargingPort::SecondInteract()
+{
+	FString InteractMessage ="Fuck you";
+	AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	Player->bIsScanAvailable = true;
+	
+	Player->InteractingEnd = true;
+	return InteractMessage;
+}
+
+FString AChargingPort::FirstInteract()
+{
 	if(bIsActive)
 	{
 		CarlMesh1->SetVisibility(true);
@@ -33,19 +57,7 @@ FString AChargingPort::OnInteract()
 		bIsActive = false;
 	}
 	Time += 1;
-	/*
-	if(Time == 9)
-	{
-		CarlActor->MovePPVolume();
-		UGameplayStatics::PlaySoundAtLocation(this,Noise, GetActorLocation());
-	}
-	
-	if(Time == 14)
-	{
-		CarlActor->Player->bIsEnd = true;
-		bIsActive = false;
-	}
-	*/
+		
 	if(Time == 5)
 	{
 		if(GateControlled)
@@ -78,11 +90,60 @@ void AChargingPort::BeginPlay()
 			CarlActor =  Cast<ACarl>(Actor);
 		}
 	}
+
+	if(SecondChargingPort)
+	{
+		UpperMesh->SetMaterial(1,RedMaterial);
+		UpperMesh->SetMaterial(2,RedMaterial);
+		bIsActive = false;
+	}
+	
 }
 
 // Called every frame
 void AChargingPort::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	SecondPortTick();
+	
+}
+
+void AChargingPort::SecondPortTick()
+{
+	if(SecondChargingPort)
+	{
+		bool bIsRotationCompleted = false;
+		if(RotationDevice)
+		{
+			if(RotationDevice->IsComplete)
+			{
+				UpperMesh->SetMaterial(1,GreenMaterial);
+				bIsRotationCompleted = true;
+			}
+		}
+
+		bool bIsAllShapeMatchComplete = false;
+		for(AShapeMatch* EachMatch:ShapeMatches)
+		{
+			if(EachMatch->bHasPlaced)
+			{
+				bIsAllShapeMatchComplete = true;
+			}
+			else
+			{
+				bIsAllShapeMatchComplete = false;
+				break;
+			}
+		}
+		if(bIsAllShapeMatchComplete)
+		{
+			UpperMesh->SetMaterial(2,GreenMaterial);
+		}
+		if(bIsRotationCompleted&&bIsAllShapeMatchComplete)
+		{
+			bIsActive = true;
+		}
+	}
 }
 

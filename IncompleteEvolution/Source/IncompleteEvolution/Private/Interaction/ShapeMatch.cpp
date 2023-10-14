@@ -71,39 +71,43 @@ void AShapeMatch::BeginPlay()
 void AShapeMatch::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	TArray<AActor*> Actors;
-	TSubclassOf<AActorGrab> ActorGrabs;
-	GetOverlappingActors(Actors,ActorGrabs);
-	if(Actors.IsEmpty())
+
+	if(!bIsNeedToInteract)
 	{
-		bHasPlaced = false;
-		bFirstPlaced = false;
-	}
-	for(AActor* Actor:Actors)
-	{
-		if(Cast<AActorGrab>(Actor)
-			&&!Cast<AActorGrab>(Actor)->IsGrabbing
-			&&!Cast<AActorGrab>(Actor)->IsFixing
-			&&Cast<AActorGrab>(Actor)->ShapeSymbol == ShapeRequired
-			&&Actor->GetActorScale3D().X<=CustomSize.X
-			&&Actor->GetActorScale3D().Y<=CustomSize.Y
-			&&Actor->GetActorScale3D().Z<=CustomSize.Z
-			&&Actor->GetActorScale3D().X>=MinCustomSize.X
-			&&Actor->GetActorScale3D().X>=MinCustomSize.Y
-			&&Actor->GetActorScale3D().X>=MinCustomSize.Z
-			&&!bHasPlaced)
+		TArray<AActor*> Actors;
+		TSubclassOf<AActorGrab> ActorGrabs;
+		GetOverlappingActors(Actors,ActorGrabs);
+		if(Actors.IsEmpty())
 		{
-			if(!bFirstPlaced)
+			bHasPlaced = false;
+			bFirstPlaced = false;
+		}
+		for(AActor* Actor:Actors)
+		{
+			if(Cast<AActorGrab>(Actor)
+				&&!Cast<AActorGrab>(Actor)->IsGrabbing
+				&&!Cast<AActorGrab>(Actor)->IsFixing
+				&&Cast<AActorGrab>(Actor)->ShapeSymbol == ShapeRequired
+				&&Actor->GetActorScale3D().X<=CustomSize.X
+				&&Actor->GetActorScale3D().Y<=CustomSize.Y
+				&&Actor->GetActorScale3D().Z<=CustomSize.Z
+				&&Actor->GetActorScale3D().X>=MinCustomSize.X
+				&&Actor->GetActorScale3D().X>=MinCustomSize.Y
+				&&Actor->GetActorScale3D().X>=MinCustomSize.Z
+				&&!bHasPlaced)
 			{
-				Actor->SetActorLocation(CollisionBox->GetComponentLocation());
-				bFirstPlaced = true;
+				if(!bFirstPlaced)
+				{
+					Actor->SetActorLocation(CollisionBox->GetComponentLocation());
+					bFirstPlaced = true;
+				}
+				Actor->SetActorScale3D(CustomSize);
+				Actor->SetActorRotation(CollisionBox->GetComponentRotation());
+				bHasPlaced = true;
 			}
-			Actor->SetActorScale3D(CustomSize);
-			Actor->SetActorRotation(CollisionBox->GetComponentRotation());
-			bHasPlaced = true;
 		}
 	}
+	
 	
 }
 

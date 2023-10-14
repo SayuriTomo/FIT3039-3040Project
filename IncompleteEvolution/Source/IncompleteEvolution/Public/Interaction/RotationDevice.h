@@ -28,7 +28,7 @@ protected:
 
 	int RotationDegree = 0;
 	UPROPERTY(EditAnywhere) float TargetDegree;
-	bool IsComplete = false;
+	
 	UPROPERTY(EditAnywhere)bool IsActive = true;
 	
 	UPROPERTY(EditAnywhere)bool IsParent;
@@ -46,6 +46,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	bool IsComplete = false;
 	bool IsRotating = false;
 
 };

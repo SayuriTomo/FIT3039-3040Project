@@ -7,6 +7,8 @@
 #include "Gate.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
+#include "RotationDevice.h"
+#include "ShapeMatch.h"
 #include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "ChargingPort.generated.h"
 
@@ -21,6 +23,9 @@ public:
 	
 	UFUNCTION()
 	virtual FString OnInteract();
+
+	FString SecondInteract();
+	FString FirstInteract();
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,7 +44,22 @@ protected:
 
 	ACarl* CarlActor;
 
+	UPROPERTY(EditAnywhere)
+	ARotationDevice* RotationDevice;
+
+	UPROPERTY(EditAnywhere)
+	TArray<AShapeMatch*> ShapeMatches;
+
 	float Time = 0;
+
+	UPROPERTY(EditAnywhere)
+	bool SecondChargingPort = false;
+	
+	UPROPERTY(EditAnywhere)
+	UMaterialInstance* GreenMaterial;
+
+	UPROPERTY(EditAnywhere)
+	UMaterialInstance* RedMaterial;
 
 public:	
 	// Called every frame
@@ -48,5 +68,7 @@ public:
 	UPROPERTY(EditAnywhere)AGate* GateControlled;
 
 	UPROPERTY(EditAnywhere)bool CanActivateFlash;
+
+	void SecondPortTick();
 
 };
