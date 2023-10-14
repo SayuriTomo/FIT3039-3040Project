@@ -19,6 +19,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* MainBody;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* UpBox;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -40,8 +43,12 @@ protected:
 
 	float PrepareTime= 0.5f;
 
+	bool IsRotating = false;
+
+	int RotationDegree = 0;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	
 };
