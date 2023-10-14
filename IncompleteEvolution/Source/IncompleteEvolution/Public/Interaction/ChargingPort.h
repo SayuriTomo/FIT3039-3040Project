@@ -7,6 +7,7 @@
 #include "Gate.h"
 #include "GameFramework/Actor.h"
 #include "InteractInterface.h"
+#include "IncompleteEvolution/IncompleteEvolutionCharacter.h"
 #include "ChargingPort.generated.h"
 
 UCLASS()
@@ -45,5 +46,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(EditAnywhere)AGate* GateControlled;
+
+	UPROPERTY(EditAnywhere)bool CanActivateFlash;
 
 };

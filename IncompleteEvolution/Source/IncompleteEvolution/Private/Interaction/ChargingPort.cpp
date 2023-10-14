@@ -46,11 +46,16 @@ FString AChargingPort::OnInteract()
 		bIsActive = false;
 	}
 	*/
-	if(Time ==5)
+	if(Time == 5)
 	{
 		if(GateControlled)
 		{
 			GateControlled -> OpenDoor();
+		}
+		if(CanActivateFlash)
+		{
+			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+			Player->bIsFlashLightAvailable = true;
 		}
 	}
 	return CarlActor->Charging();
