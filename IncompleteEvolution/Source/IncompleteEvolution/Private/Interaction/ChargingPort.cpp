@@ -159,6 +159,14 @@ void AChargingPort::SecondPortTick()
 		if(bIsAllShapeMatchComplete)
 		{
 			UpperMesh->SetMaterial(2,GreenMaterial);
+			if(!bWhetherPlayedVoice)
+			{
+				if(SuccessVoice)
+				{
+					UGameplayStatics::PlaySoundAtLocation(this, SuccessVoice, GetActorLocation());
+					bWhetherPlayedVoice = true;
+				}
+			}
 		}
 		if(bIsRotationCompleted&&bIsAllShapeMatchComplete)
 		{

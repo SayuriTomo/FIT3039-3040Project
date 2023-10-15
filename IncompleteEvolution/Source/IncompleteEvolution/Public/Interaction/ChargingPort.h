@@ -71,4 +71,9 @@ public:
 
 	void SecondPortTick();
 
+	UPROPERTY(EditAnywhere)
+	USoundBase* SuccessVoice;
+
+	bool bWhetherPlayedVoice = false;
+
 };
