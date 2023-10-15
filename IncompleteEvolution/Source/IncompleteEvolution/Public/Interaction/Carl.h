@@ -54,8 +54,15 @@ protected:
 	TArray<FString> M_HasGetKey = {"You got it!", "Now we need to go to Power Supply Room"};
 	TArray<FString> C_HasGetKey ={"Carl","Carl"};
 	
-	TArray<FString> M_Charging = {"Reading---","Complete","OK, Ethan","I have got access to this level","Let's move on"};
-	TArray<FString> C_Charging ={"Carl", "Carl", "Carl", "Carl","Carl"};
+	TArray<FString> M_Charging = {"Reading---","Complete","OK, Ethan","I have got access to this level",
+		"And I unlocked new abilities","[Pressing T to use flashlight]",
+		"Let's move on"};
+	TArray<FString> C_Charging ={"Carl", "Carl", "Carl", "Carl","Carl","Carl","Carl"};
+
+	TArray<FString> M_ChargingTwo = {"Reading---","Complete","OK, Ethan","I have got access to this level",
+		"The gate is unlocked", "Also, I got new abilities","[Pressing Q to scan the surroundings]",
+		"It can help you find some important things", "You can choose to move on", "Or go to find them"};
+	TArray<FString> C_ChargingTwo ={"Carl", "Carl", "Carl", "Carl","Carl","Carl","Carl","Carl","Carl","Carl"};
 
 	FString ReadMessage(TArray<FString> Message,
 		TArray<FString> Character,
@@ -77,6 +84,8 @@ public:
 	int Index;
 	FString Charging();
 	void MovePPVolume();
+
+	FString ChargingTwo();
 
 	UPROPERTY(EditAnywhere)
 	TArray<USoundBase*> Voice_Restart;

@@ -34,11 +34,18 @@ void ATaskTrigger::TriggerOverlap(UPrimitiveComponent* OverlappedComponent, AAct
 	{
 		if(OtherActor && OtherActor != this && Cast<AIncompleteEvolutionCharacter>(OtherActor))
 		{
-			UGameplayStatics::PlaySoundAtLocation(this, Voice_Achieve, GetActorLocation());
+			if(Voice_Achieve)
+			{
+				UGameplayStatics::PlaySoundAtLocation(this, Voice_Achieve, GetActorLocation());
+			}
 			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(OtherActor);
 			Player->Interacting =true;
-			Player->TargetUpdate=true;
-			Player->TaskText = TaskMessage;
+			if(!TaskMessage.IsEmpty())
+			{
+				Player->TargetUpdate=true;
+				Player->TaskText = TaskMessage;
+			}
+			
 			Player->InteractCharacterName = CharacterName;
 			Player->InteractText = InteractMessage;
 			Player->InteractingEnd = true;

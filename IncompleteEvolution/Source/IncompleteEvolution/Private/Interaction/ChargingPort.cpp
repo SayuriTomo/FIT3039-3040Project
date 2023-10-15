@@ -40,12 +40,29 @@ FString AChargingPort::OnInteract()
 
 FString AChargingPort::SecondInteract()
 {
-	FString InteractMessage ="Fuck you";
-	AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	Player->bIsScanAvailable = true;
-	
-	Player->InteractingEnd = true;
-	return InteractMessage;
+	if(bIsActive)
+	{
+		CarlMesh1->SetVisibility(true);
+		CarlMesh2->SetVisibility(true);
+		bIsActive = false;
+	}
+	Time += 1;
+		
+	if(Time == 10)
+	{
+		if(GateControlled)
+		{
+			GateControlled -> OpenDoor();
+		}
+		if(!CanActivateFlash)
+		{
+			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
+			Player->bIsScanAvailable = true;
+			Player->TargetUpdate = true;
+			Player->TaskText = nullptr;
+		}
+	}
+	return CarlActor->ChargingTwo();
 }
 
 FString AChargingPort::FirstInteract()
@@ -58,7 +75,7 @@ FString AChargingPort::FirstInteract()
 	}
 	Time += 1;
 		
-	if(Time == 5)
+	if(Time == 7)
 	{
 		if(GateControlled)
 		{
@@ -68,6 +85,9 @@ FString AChargingPort::FirstInteract()
 		{
 			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 			Player->bIsFlashLightAvailable = true;
+			Player->TargetUpdate = true;
+			Player->TaskText = "Move to the next room";
+			Time = 0;
 		}
 	}
 	return CarlActor->Charging();

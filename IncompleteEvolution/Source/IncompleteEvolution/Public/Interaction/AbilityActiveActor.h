@@ -48,6 +48,7 @@ public:
 		"and drag the field of view",
 		"Resize?",
 		"What does it mean?"};
+	
 	UPROPERTY(EditAnywhere)
 	TArray<FString> C_AbilityLearn ={
 		"Report","Report","Report","Report","Report","Report","Report","Report","Report",

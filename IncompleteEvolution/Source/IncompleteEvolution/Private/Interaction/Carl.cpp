@@ -141,6 +141,13 @@ void ACarl::MovePPVolume()
 	PP_WarpVolume->SetActorLocation(Player->GetActorLocation());
 }
 
+FString ACarl::ChargingTwo()
+{
+	FString InteractMessage;
+	
+	return ReadMessage(M_ChargingTwo,C_ChargingTwo,T_Contact);
+}
+
 // Called every frame
 void ACarl::Tick(float DeltaTime)
 {
@@ -150,7 +157,7 @@ void ACarl::Tick(float DeltaTime)
 FString ACarl::Charging()
 {
 	FString InteractMessage;
-	PlaySound(Voice_Charging);
+	//PlaySound(Voice_Charging);
 	return ReadMessage(M_Charging,C_Charging,T_Contact);
 }
 
