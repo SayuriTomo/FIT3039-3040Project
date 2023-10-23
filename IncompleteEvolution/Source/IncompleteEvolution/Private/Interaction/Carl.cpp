@@ -101,6 +101,7 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 							Player->TaskText = "4. Go to Power Supply Room";
 							T_Contact +=1;
 							SetActorLocation(InvisibleLocation);
+							Player->bIsCarlFollowAvailable = true;
 						}
 						break;
 					}
