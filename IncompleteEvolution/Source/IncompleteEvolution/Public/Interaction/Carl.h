@@ -102,6 +102,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	TArray<USoundBase*> Voice_Charging;
 
+	UPROPERTY(EditAnywhere)
+	TArray<USoundBase*> Second_Voice_Charging;
+
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	APostProcessVolume* PP_WarpVolume;
 	

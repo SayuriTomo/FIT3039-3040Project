@@ -59,7 +59,7 @@ FString AChargingPort::SecondInteract()
 			AIncompleteEvolutionCharacter* Player = Cast<AIncompleteEvolutionCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn());
 			Player->bIsScanAvailable = true;
 			Player->TargetUpdate = true;
-			Player->TaskText = nullptr;
+			Player->TaskText = "Find Collections or Escape Directly";
 		}
 	}
 	return CarlActor->ChargingTwo();

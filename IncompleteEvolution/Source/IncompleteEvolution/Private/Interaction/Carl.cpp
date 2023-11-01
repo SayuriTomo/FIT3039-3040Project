@@ -145,7 +145,7 @@ void ACarl::MovePPVolume()
 FString ACarl::ChargingTwo()
 {
 	FString InteractMessage;
-	
+	PlaySound(Second_Voice_Charging);
 	return ReadMessage(M_ChargingTwo,C_ChargingTwo,T_Contact);
 }
 
@@ -158,7 +158,7 @@ void ACarl::Tick(float DeltaTime)
 FString ACarl::Charging()
 {
 	FString InteractMessage;
-	//PlaySound(Voice_Charging);
+	PlaySound(Voice_Charging);
 	return ReadMessage(M_Charging,C_Charging,T_Contact);
 }
 
