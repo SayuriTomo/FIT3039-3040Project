@@ -23,18 +23,23 @@ AShapeMatch::AShapeMatch()
 
 FString AShapeMatch::OnInteract()
 {
-	FString InteractMessage;
+	FString InteractMessage = "I don't have enough keys";
 	if(!bHasPlaced&&!bFirstPlaced&&bIsNeedToInteract)
 	{
 		bool bIsKeyCorrect = false;
+		if((Player->GetPuzzleKeyOne&&Player->GetPuzzleKeyTwo)
+			||(Player->GetPuzzleKeyOne&&Player->TempPuzzleKey)
+			||(Player->GetPuzzleKeyTwo&&Player->TempPuzzleKey))
 		if(bRequireOne&&Player->GetPuzzleKeyOne)
 		{
 			Player->GetPuzzleKeyOne = !Player->GetPuzzleKeyOne;
+			Player->TempPuzzleKey = true;
 			bIsKeyCorrect = true;
 		}
 		else if(!bRequireOne&&Player->GetPuzzleKeyTwo)
 		{
 			Player->GetPuzzleKeyTwo = !Player->GetPuzzleKeyTwo;
+			Player->TempPuzzleKey = true;
 			bIsKeyCorrect = true;
 		}
 		
@@ -44,11 +49,14 @@ FString AShapeMatch::OnInteract()
 			bFirstPlaced = true;
 			bHasPlaced = true;
 			bIsActive = false;
+			InteractMessage = "";
+			Player->Interacting = false;
 		}
 		
 	}
 
-	Player->Interacting = false;
+	Player->InteractCharacterName = "Ethan";
+	//Player->Interacting = false;
 	Player->InteractingEnd = true;
 	return InteractMessage;
 }
