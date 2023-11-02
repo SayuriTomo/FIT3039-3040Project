@@ -89,7 +89,7 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 				case 1:
 					{
 						Player->TargetUpdate = true;
-						Player->TaskText = "3. Find the Key card";
+						Player->TaskText = "Find the Key card";
 						T_Contact +=1;
 						break;
 					}
@@ -98,7 +98,7 @@ FString ACarl::ReadMessage(TArray<FString> Message, TArray<FString> Character,in
 						if(Player->GetKey)
 						{
 							Player->TargetUpdate = true;
-							Player->TaskText = "4. Go to Power Supply Room";
+							Player->TaskText = "Go to Power Supply Room";
 							T_Contact +=1;
 							SetActorLocation(InvisibleLocation);
 							Player->bIsCarlFollowAvailable = true;

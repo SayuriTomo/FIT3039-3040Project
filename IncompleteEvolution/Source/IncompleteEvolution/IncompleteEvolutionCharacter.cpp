@@ -525,7 +525,7 @@ void AIncompleteEvolutionCharacter::ReadPrologue()
 			bIsStart = false;
 			InteractingEnd = true;
 			TargetUpdate = true;
-			TaskText = "1. Leave Room";
+			TaskText = "Leave Room";
 		}
 	}
 }
